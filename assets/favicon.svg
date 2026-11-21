@@ -1,8 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#D7263D"/>
-  <path d="M10 46a22 22 0 0 1 44 0z" fill="#F6EFE3"/>
-  <path d="M32 46 L27 24 L37 24 Z" fill="#F2B134"/>
-  <path d="M32 46 L30.2 24 L33.8 24 Z" fill="#D7263D"/>
-  <rect x="30.5" y="18" width="3" height="28" rx="1.5" transform="rotate(28 32 46)" fill="#2A1A12"/>
-  <circle cx="32" cy="46" r="5" fill="#2A1A12"/>
+  <!-- SG Games: one Peranakan tile, same motif as the nav logo -->
+  <defs>
+    <clipPath id="tile"><rect x="2" y="2" width="60" height="60" rx="14"/></clipPath>
+  </defs>
+  <g clip-path="url(#tile)">
+    <rect width="64" height="64" fill="#FBF6EC"/>
+    <g fill="#1F8A8A">
+      <circle cx="2" cy="2" r="17"/><circle cx="62" cy="2" r="17"/>
+      <circle cx="2" cy="62" r="17"/><circle cx="62" cy="62" r="17"/>
+    </g>
+    <g fill="#F2B134">
+      <circle cx="8" cy="8" r="2.6"/><circle cx="56" cy="8" r="2.6"/>
+      <circle cx="8" cy="56" r="2.6"/><circle cx="56" cy="56" r="2.6"/>
+    </g>
+  </g>
+  <g transform="translate(32 32)">
+    <g fill="#E0457B" stroke="#2A1A12" stroke-width="1.6">
+      <ellipse rx="6.5" ry="11.5" cy="-10.5"/>
+      <ellipse rx="6.5" ry="11.5" cy="10.5"/>
+      <ellipse rx="11.5" ry="6.5" cx="-10.5"/>
+      <ellipse rx="11.5" ry="6.5" cx="10.5"/>
+    </g>
+    <circle r="7.5" fill="#D7263D" stroke="#2A1A12" stroke-width="1.6"/>
+    <circle r="3" fill="#F2B134"/>
+  </g>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="#2A1A12" stroke-width="4"/>
 </svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Chope Wars: a pink and a blue tissue packet fighting over a marble table -->
+  <rect width="64" height="64" rx="14" fill="#2F6B4F"/>
+  <circle cx="32" cy="32" r="23" fill="#F2EEE7" stroke="#2A1A12" stroke-width="3"/>
+  <g transform="translate(38 37) rotate(14)">
+    <rect x="-14" y="-9.5" width="28" height="19" rx="4.5" fill="#2D6FD1" stroke="#2A1A12" stroke-width="2.6"/>
+    <rect x="-4" y="-8" width="8" height="16" fill="#fff" opacity=".85"/>
+  </g>
+  <g transform="translate(26 27) rotate(-12)">
+    <rect x="-14" y="-9.5" width="28" height="19" rx="4.5" fill="#E0457B" stroke="#2A1A12" stroke-width="2.6"/>
+    <rect x="-4" y="-8" width="8" height="16" fill="#fff" opacity=".85"/>
+  </g>
+</svg>

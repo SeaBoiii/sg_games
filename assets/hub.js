@@ -76,34 +76,141 @@ function arc(cx, cy, r, a0, a1) {
   return `M${cx} ${cy}L${x0} ${y0}A${r} ${r} 0 0 1 ${x1} ${y1}Z`;
 }
 
-const ART = {
-  dial: () => `
-    <svg viewBox="0 0 400 240" aria-hidden="true">
-      <rect x="18" y="20" width="364" height="210" rx="26" fill="#2A1A12"/>
-      <path d="M40 200a160 160 0 0 1 320 0z" fill="#FBF6EC"/>
-      <path d="${arc(200, 200, 160, 98, 128)}" fill="#1F8A8A"/>
-      <path d="${arc(200, 200, 160, 104, 122)}" fill="#F2B134"/>
-      <path d="${arc(200, 200, 160, 110, 116)}" fill="#D7263D"/>
-      <g class="needle" style="transform-origin:200px 200px">
-        <path d="M200 52 L207 200 L193 200Z" fill="#D7263D" stroke="#2A1A12" stroke-width="3" stroke-linejoin="round"/>
+// Miniatures of each game's real 2D screen, so the hub cards match what you get when you tap Play.
+const FONT = 'Bricolage Grotesque, sans-serif';
+const BLEED = new Set(['dial', 'chope']);
+
+function agakArt() {
+  const CX = 200, CY = 176, R = 123;
+  const pt = (r, a) => [CX - r * Math.cos((a * Math.PI) / 180), CY - r * Math.sin((a * Math.PI) / 180)];
+  let ticks = '';
+  for (let a = 6; a < 180; a += 12) {
+    const [x0, y0] = pt(R - (a % 36 === 6 ? 10 : 6), a), [x1, y1] = pt(R - 2, a);
+    ticks += `<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" stroke="#6B3E26" stroke-opacity=".22" stroke-width="1.6" stroke-linecap="round"/>`;
+  }
+  let dots = '';
+  for (let a = 0; a <= 180; a += 22.5) { const [x, y] = pt(131, a); dots += `<circle cx="${x}" cy="${y}" r="${a % 45 === 0 ? 2.2 : 1.2}" fill="#F2B134"/>`; }
+  let ribs = '';
+  for (let a = 15; a < 180; a += 15) { const [x0, y0] = pt(52, a), [x1, y1] = pt(R - 12, a); ribs += `<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" stroke="#6B3E26" stroke-opacity=".12" stroke-width="1.2"/>`; }
+  const T = 122; // where the hidden target landed
+  return `
+    <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <pattern id="agak-tile" width="44" height="44" patternUnits="userSpaceOnUse"><image href="assets/tile.svg" width="44" height="44"/></pattern>
+        <radialGradient id="agak-glow" cx="80%" cy="0%" r="90%"><stop offset="0" stop-color="#F2B134" stop-opacity=".28"/><stop offset="1" stop-color="#F2B134" stop-opacity="0"/></radialGradient>
+        <linearGradient id="agak-housing" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A2C1B"/><stop offset="1" stop-color="#24150D"/></linearGradient>
+        <linearGradient id="agak-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFD877"/><stop offset=".5" stop-color="#F2B134"/><stop offset="1" stop-color="#B9791A"/></linearGradient>
+        <radialGradient id="agak-face" cx="50%" cy="100%" r="100%"><stop offset="0" stop-color="#FFFDF7"/><stop offset=".75" stop-color="#FBF3E2"/><stop offset="1" stop-color="#EBDDC2"/></radialGradient>
+        <radialGradient id="agak-shutter" cx="50%" cy="100%" r="100%"><stop offset="0" stop-color="#F3EAD8"/><stop offset=".7" stop-color="#EADDC4"/><stop offset="1" stop-color="#D8C6A4"/></radialGradient>
+        <clipPath id="agak-top"><rect width="400" height="${CY}"/></clipPath>
+      </defs>
+      <rect width="400" height="250" fill="#F6EFE3"/>
+      <rect width="400" height="250" fill="url(#agak-tile)" opacity=".09"/>
+      <rect width="400" height="250" fill="url(#agak-glow)"/>
+      <path d="M57 ${CY + 25} L57 ${CY} A143 143 0 0 1 343 ${CY} L343 ${CY + 25} Q343 ${CY + 36} 332 ${CY + 36} L68 ${CY + 36} Q57 ${CY + 36} 57 ${CY + 25}Z" fill="url(#agak-housing)" stroke="#120A06" stroke-width="1.5"/>
+      <path d="M63 ${CY} A137 137 0 0 1 337 ${CY}" fill="none" stroke="url(#agak-gold)" stroke-width="2" opacity=".9"/>
+      ${dots}
+      <g clip-path="url(#agak-top)">
+        <circle cx="${CX}" cy="${CY}" r="${R}" fill="url(#agak-face)"/>
+        ${ticks}
+        <path d="${arc(CX, CY, R - 1, T - 16, T + 16)}" fill="#1F8A8A" stroke="#2A1A12" stroke-opacity=".25"/>
+        <path d="${arc(CX, CY, R - 1, T - 10, T + 10)}" fill="#F2B134" stroke="#2A1A12" stroke-opacity=".25"/>
+        <path d="${arc(CX, CY, R - 1, T - 3.5, T + 3.5)}" fill="#D7263D" stroke="#2A1A12" stroke-opacity=".25"/>
+        <g transform="rotate(-72 ${CX} ${CY})">
+          <path d="M${CX - R - 1} ${CY} A${R + 1} ${R + 1} 0 0 1 ${CX + R + 1} ${CY}Z" fill="url(#agak-shutter)"/>
+          ${ribs}
+          <path d="M${CX - R + 7} ${CY} A${R - 7} ${R - 7} 0 0 1 ${CX + R - 7} ${CY}" fill="none" stroke="#B9862A" stroke-opacity=".6" stroke-width="1.2"/>
+          <path d="M${CX - 45} ${CY} A45 45 0 0 1 ${CX + 45} ${CY}" fill="none" stroke="#B9862A" stroke-opacity=".35" stroke-width="1"/>
+          <line x1="${CX - R - 1}" y1="${CY}" x2="${CX + R + 1}" y2="${CY}" stroke="#2A1A12" stroke-opacity=".25"/>
+          <g transform="translate(${CX} ${CY - R + 14})"><rect x="-18" y="-6" width="36" height="12" rx="6" fill="#2A1A12"/><text y="2.6" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="7" letter-spacing="1.4" fill="#FBF6EC">AGAK</text></g>
+        </g>
       </g>
-      <circle cx="200" cy="200" r="18" fill="#F2B134" stroke="#2A1A12" stroke-width="4"/>
-      <text x="58" y="222" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="17" fill="#FBF6EC">← SHIOK</text>
-      <text x="342" y="222" text-anchor="end" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="17" fill="#FBF6EC">SIAN →</text>
-    </svg>`,
-  chope: () => {
-    const tbl = (x, y, own) => `<circle cx="${x}" cy="${y}" r="34" fill="${own || '#FBF6EC'}" stroke="#2A1A12" stroke-width="4"/>`;
-    const st = (x, y) => `<circle cx="${x}" cy="${y}" r="13" fill="#F0E6D6" stroke="#2A1A12" stroke-width="3"/>`;
-    const pk = (x, y, c, r) => `<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-14" y="-9" width="28" height="18" rx="4" fill="${c}" stroke="#2A1A12" stroke-width="2.5"/><rect x="-4" y="-8" width="8" height="16" fill="#fff" opacity=".8"/></g>`;
-    const P = '#E0457B', B = '#2D6FD1';
-    return `<svg viewBox="0 0 400 240" aria-hidden="true">
-      ${tbl(130, 80, P)}${tbl(270, 80)}${tbl(130, 180)}${tbl(270, 180, B)}
-      ${[[130, 30], [270, 30], [80, 80], [200, 80], [320, 80], [130, 130], [270, 130], [80, 180], [200, 180], [320, 180], [130, 230], [270, 230]].map(([x, y]) => st(x, y)).join('')}
-      ${pk(130, 30, P, -10)}${pk(80, 80, P, 12)}${pk(200, 80, P, -6)}${pk(130, 130, B, 8)}${pk(270, 130, B, -12)}${pk(320, 180, B, 6)}${pk(200, 180, B, -8)}${pk(270, 230, P, 10)}${pk(320, 80, B, -4)}
-      <text x="130" y="88" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="15" fill="#fff">CHOPED</text>
-      <text x="270" y="188" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="15" fill="#fff">CHOPED</text>
+      <path d="M${CX - R} ${CY} A${R} ${R} 0 0 1 ${CX + R} ${CY}" fill="none" stroke="#120A06" stroke-width="3"/>
+      <rect x="57" y="${CY - 0.6}" width="286" height="3" fill="#120A06"/>
+      <rect x="64" y="${CY + 6}" width="272" height="24" rx="5" fill="none" stroke="#F2B134" stroke-opacity=".35"/>
+      <g class="needle" style="transform-origin:${CX}px ${CY}px">
+        <g transform="rotate(${T - 6 - 90} ${CX} ${CY})">
+          <path d="M${CX} ${CY - R + 3} L${CX + 4} ${CY - 9} L${CX - 4} ${CY - 9}Z" fill="#D7263D" stroke="#120A06" stroke-width="1.3" stroke-linejoin="round"/>
+        </g>
+      </g>
+      <circle cx="${CX}" cy="${CY}" r="14" fill="url(#agak-gold)" stroke="#120A06" stroke-width="1.6"/>
+      <circle cx="${CX}" cy="${CY}" r="6.5" fill="#2A1A12"/>
+      <circle cx="${CX - 2.2}" cy="${CY - 2.2}" r="1.8" fill="#fff" opacity=".35"/>
+      <g font-family="${FONT}" font-weight="800" font-size="12" fill="#2A1A12">
+        <rect x="70" y="${CY + 9}" width="74" height="19" rx="5" fill="#FDE3E7" stroke="#2A1A12" stroke-width="1.3"/>
+        <text x="107" y="${CY + 22.5}" text-anchor="middle">← Shiok</text>
+        <rect x="262" y="${CY + 9}" width="68" height="19" rx="5" fill="#DDF1EE" stroke="#2A1A12" stroke-width="1.3"/>
+        <text x="296" y="${CY + 22.5}" text-anchor="middle">Sian →</text>
+      </g>
     </svg>`;
-  },
+}
+
+function chopeArt() {
+  const P = '#E0457B', B = '#2D6FD1', INK = '#2A1A12';
+  const packet = (x, y, c, r, extra = '') => `<g transform="translate(${x} ${y}) rotate(${r})" ${extra}><rect x="-13.5" y="-9" width="27" height="18" rx="4" fill="${c}" stroke="${INK}" stroke-width="1.6"/><rect x="-4" y="-8.5" width="8" height="17" fill="#fff" opacity=".82"/></g>`;
+  const stool = (x, y, c = null, r = 0, ghost = false) => `
+    <g transform="translate(${x} ${y})"><circle cx="1.5" cy="2.5" r="16.5" fill="${INK}" opacity=".2"/><circle r="16" fill="#F0E6D6" stroke="${INK}" stroke-width="1.6"/><rect x="-5.5" y="-2" width="11" height="4" rx="2" fill="${INK}" opacity=".22"/></g>
+    ${c ? packet(x, y, c, r, ghost ? 'opacity=".5"' : '') : ''}`;
+  const table = (x, y, { name, val, type = 'normal', owner = null, hot = false }) => {
+    const badge = type === 'famous' ? '#F2B134' : type === 'fan' ? '#DDF1EE' : '#fff';
+    const deco = type === 'fan'
+      ? `<g opacity=".2"><g class="fan-blades" style="transform-origin:${x}px ${y}px">${[0, 120, 240].map((a) => `<ellipse cx="${x}" cy="${y - 17}" rx="5.5" ry="17" transform="rotate(${a} ${x} ${y})" fill="${INK}"/>`).join('')}</g><circle cx="${x}" cy="${y}" r="4.5" fill="${INK}"/></g>`
+      : type === 'famous'
+        ? `<path transform="translate(${x} ${y}) scale(.5)" d="M0 -30 L8.8 -12 L28.5 -9.3 L14.3 4.6 L17.6 24.3 L0 15 L-17.6 24.3 L-14.3 4.6 L-28.5 -9.3 L-8.8 -12Z" fill="#F2B134" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>`
+        : '';
+    return `
+      <ellipse cx="${x + 3}" cy="${y + 5}" rx="38" ry="36" fill="${INK}" opacity=".18"/>
+      ${hot ? `<circle class="hot" cx="${x}" cy="${y}" r="45" fill="none" stroke="#F2B134" stroke-width="3" stroke-dasharray="5 4" style="transform-origin:${x}px ${y}px"/>` : ''}
+      <circle cx="${x}" cy="${y}" r="36" fill="url(#chope-marble)" stroke="#2F6B4F" stroke-width="4"/>
+      ${deco}
+      <text x="${x}" y="${y - 19}" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="11" fill="${INK}" fill-opacity=".35">${name}</text>
+      <circle cx="${x + 23}" cy="${y + 23}" r="10.5" fill="${badge}" stroke="${INK}" stroke-width="1.6"/>
+      <text x="${x + 23}" y="${y + 27}" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="12" fill="${INK}">${val}</text>
+      ${owner ? `
+        <circle cx="${x}" cy="${y}" r="36" fill="${owner}" stroke="${INK}" stroke-width="3"/>
+        <circle cx="${x}" cy="${y}" r="30" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.5" stroke-dasharray="2 4"/>
+        <text x="${x}" y="${y - 1}" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="13" letter-spacing="1" fill="#fff">CHOPED</text>
+        <text x="${x}" y="${y + 15}" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="12" fill="#fff">+${val}</text>` : ''}`;
+  };
+  const stall = (x, w, name, col) => {
+    let scal = '';
+    for (let i = 0; i < 8; i++) scal += `<path d="M${x + (w / 8) * i} 45 q${w / 16} 9 ${w / 8} 0" fill="${col}" stroke="${INK}" stroke-width="1.5"/>`;
+    return `
+      <rect x="${x}" y="6" width="${w}" height="28" rx="5" fill="#2F6B4F" stroke="${INK}" stroke-width="2"/>
+      <text x="${x + w / 2}" y="25" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="13" letter-spacing=".8" fill="#FFF8E8">${name}</text>
+      <rect x="${x}" y="34" width="${w}" height="11" fill="${col}" stroke="${INK}" stroke-width="1.5"/>
+      ${scal}
+      <rect x="${x + 4}" y="56" width="${w - 8}" height="13" rx="3" fill="#E9DCC5" stroke="${INK}" stroke-width="1.5"/>`;
+  };
+  const ROW_A = 136, ROW_B = 241;
+  return `
+    <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <pattern id="chope-floor" width="32" height="32" patternUnits="userSpaceOnUse">
+          <rect width="32" height="32" fill="#EADCC3"/><rect width="16" height="16" fill="#E2CFAF"/><rect x="16" y="16" width="16" height="16" fill="#E2CFAF"/>
+        </pattern>
+        <radialGradient id="chope-marble" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".7" stop-color="#F2EEE7"/><stop offset="1" stop-color="#DCD5CA"/></radialGradient>
+      </defs>
+      <rect width="400" height="78" fill="#F3E6CF"/>
+      ${stall(8, 188, 'CHICKEN RICE', '#D7263D')}${stall(204, 188, 'KOPI · TEH', '#1F8A8A')}
+      <rect y="74" width="400" height="4" fill="${INK}"/>
+      <rect y="78" width="400" height="172" fill="url(#chope-floor)"/>
+      ${table(95, ROW_A, { name: 'A1', val: 2, type: 'fan', owner: P })}
+      ${table(200, ROW_A, { name: 'A2', val: 3, type: 'famous', hot: true })}
+      ${table(305, ROW_A, { name: 'A3', val: 1, owner: B })}
+      ${table(95, ROW_B, { name: 'B1', val: 1 })}
+      ${table(200, ROW_B, { name: 'B2', val: 2, type: 'fan' })}
+      ${table(305, ROW_B, { name: 'B3', val: 1 })}
+      ${stool(95, 87, P, -8)}${stool(200, 87, B, 10)}${stool(305, 87, B, -6)}
+      ${stool(42, ROW_A, P, 12)}${stool(147.5, ROW_A, P, -10)}${stool(252.5, ROW_A, P, 8, true)}${stool(358, ROW_A, B, -12)}
+      ${stool(95, 188.5, B, 6)}${stool(200, 188.5, P, -14)}${stool(305, 188.5, B, 12)}
+      ${stool(42, ROW_B)}${stool(147.5, ROW_B)}${stool(252.5, ROW_B, B, -4)}${stool(358, ROW_B)}
+    </svg>`;
+}
+
+const ART = {
+  dial: agakArt,
+  chope: chopeArt,
   wok: () => `
     <svg viewBox="0 0 400 240" aria-hidden="true">
       <path d="M70 120h260a130 70 0 0 1-260 0z" fill="#2A1A12"/>
@@ -137,15 +244,14 @@ function renderGames(grid) {
         }</a>`
       )
       .join('');
+    // Six fixed rows (art, kicker, title, blurb, tags, actions) so every card lines up on the grid.
     card.innerHTML = `
-      <div class="card-art">${ART[g.art] ? ART[g.art]() : ''}</div>
-      <div class="card-body">
-        <p class="card-kicker">${g.tagline}</p>
-        <h3>${g.title}</h3>
-        <p class="blurb">${g.blurb}</p>
-        <ul class="tags">${g.tags.map((t) => `<li>${t}</li>`).join('')}</ul>
-        ${actions ? `<div class="card-actions">${actions}</div>` : ''}
-      </div>`;
+      <div class="card-art${BLEED.has(g.art) ? ' bleed' : ''}">${ART[g.art] ? ART[g.art]() : ''}</div>
+      <p class="card-kicker">${g.tagline}</p>
+      <h3>${g.title}</h3>
+      <p class="blurb">${g.blurb}</p>
+      <ul class="tags">${g.tags.map((t) => `<li>${t}</li>`).join('')}</ul>
+      <div class="card-actions">${actions}</div>`;
     grid.appendChild(card);
   }
 }

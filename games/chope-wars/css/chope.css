@@ -45,8 +45,8 @@ svg { display: block; }
 }
 .brand { display: flex; align-items: center; gap: 8px; font: 800 20px/1 var(--display); letter-spacing: -.02em; white-space: nowrap; }
 .brand b { color: var(--p0); margin-left: 2px; }
-.brand-mark { width: 26px; height: 26px; border-radius: 7px; background: var(--ink); display: grid; place-items: center; }
-.brand-mark i { width: 14px; height: 10px; border-radius: 3px; background: var(--p0); box-shadow: 4px 3px 0 var(--p1); display: block; transform: rotate(-12deg); }
+.brand-mark { width: 26px; height: 26px; border-radius: 7px; background: url(../favicon.svg) center/cover; }
+.brand-mark i { display: none; }
 .scores { flex: 1; display: flex; justify-content: center; align-items: center; gap: 8px; min-width: 0; }
 .score {
   display: flex; align-items: center; gap: 8px; padding: 4px 4px 4px 12px; border-radius: 999px;
