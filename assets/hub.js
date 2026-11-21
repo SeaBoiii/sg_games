@@ -5,6 +5,7 @@ import { holeSVG, cupSVG as golfCupSVG, ballSVG } from '../games/marina-golf/js/
 import { HOLES as GOLF_HOLES } from '../games/marina-golf/js/engine.js';
 import { studioSVG, timerSVG, cardFrontSVG, TIMER_R } from '../games/cannot-say/js/art.js';
 import { CARDS as SAY_CARDS } from '../games/cannot-say/js/cards.js';
+import { sceneSVG as ckScene, kidKickSVG, chaptehSVG, OUTFITS as CK_OUTFITS, ZONE_COLORS as CK_ZONES, GY as CK_GY, px as ckX, py as ckY } from '../games/chapteh-kick/js/art.js';
 
 
 /* ---------- Heartland skyline (HDB blocks) ---------- */
@@ -90,7 +91,7 @@ function arc(cx, cy, r, a0, a1) {
 
 // Miniatures of each game's real 2D screen, so the hub cards match what you get when you tap Play.
 const FONT = 'Bricolage Grotesque, sans-serif';
-const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi', 'pasar', 'golf', 'say']);
+const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi', 'pasar', 'golf', 'say', 'chapteh']);
 
 function agakArt() {
   const CX = 200, CY = 176, R = 123;
@@ -403,6 +404,27 @@ function sayArt() {
     </svg>`;
 }
 
+function chaptehArt() {
+  // miniature of the 2D playground, cropped in on the kid: the chapteh has just come off the
+  // right foot and is dropping towards the left foot, with the timing ring closing in
+  const lx = ckX(-0.17), ly = ckY(0.235);
+  const cx = ckX(-0.4), cy = ckY(0.78);
+  return `
+    <svg viewBox="178 150 660 410" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      ${ckScene('hubck-', 'solo')}
+      <g transform="translate(500 ${CK_GY})">${kidKickSVG(CK_OUTFITS[0], 'R')}</g>
+      <path d="M${ckX(0.2)} ${ckY(0.3)} C ${ckX(0.3)} ${ckY(1.6)} ${ckX(-0.45)} ${ckY(1.7)} ${cx} ${cy - 20}" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="3 14" stroke-linecap="round" opacity=".9"/>
+      <g transform="translate(${cx} ${cy}) rotate(-22) scale(1.2)">${chaptehSVG(false)}</g>
+      <circle cx="${lx}" cy="${ly}" r="50" fill="none" stroke="${CK_ZONES.L}" stroke-width="7" opacity=".9"/>
+      <g transform="translate(${lx} ${ly})"><circle r="22" fill="${CK_ZONES.L}" opacity=".95" stroke="#fff" stroke-width="3"/><text y="7" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="20" fill="#fff">◀</text></g>
+      <g transform="translate(204 196) scale(.8)">
+        <text font-family="${FONT}" font-weight="800" font-size="20" fill="#2A1A12" opacity=".75">SCORE</text>
+        <text y="58" font-family="${FONT}" font-weight="800" font-size="62" fill="#fff" stroke="#2A1A12" stroke-width="6" paint-order="stroke">87</text>
+        <g transform="translate(0 76)"><rect width="168" height="34" rx="17" fill="#E8590C"/><text x="14" y="24" font-family="${FONT}" font-weight="800" font-size="18" fill="#fff">17 COMBO · ×3</text></g>
+      </g>
+    </svg>`;
+}
+
 const ART = {
   dial: agakArt,
   chope: chopeArt,
@@ -411,6 +433,7 @@ const ART = {
   pasar: pasarArt,
   golf: golfArt,
   say: sayArt,
+  chapteh: chaptehArt,
   wok: () => `
     <svg viewBox="0 0 400 240" aria-hidden="true">
       <path d="M70 120h260a130 70 0 0 1-260 0z" fill="#2A1A12"/>

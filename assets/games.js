@@ -107,6 +107,21 @@ export const GAMES = [
     ],
     status: 'live',
   },
+  {
+    slug: 'chapteh-kick',
+    title: 'Chapteh Kick',
+    tagline: 'Don\'t let it drop!',
+    blurb:
+      'The kampung classic. Keep the feathered chapteh in the air with perfectly timed left-foot, knee and right-foot kicks, or rally it across with a friend on one phone.',
+    tags: ['Solo', '2P rally', 'Reflex', '3–5 min'],
+    accent: '#D7263D',
+    art: 'chapteh',
+    links: [
+      { label: 'Play', href: 'games/chapteh-kick/', primary: true },
+      { label: 'Play in 3D', href: 'games/chapteh-kick/3d/', badge: 'New' },
+    ],
+    status: 'live',
+  },
   // The two "coming soon" cards below are permanent: keep them last, after every real game.
   {
     slug: 'coming-soon-1',

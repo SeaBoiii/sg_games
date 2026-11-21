@@ -14,6 +14,7 @@ Party games for the kopitiam table. They are static HTML, CSS and JS, with no bu
 | **Pasar Malam Haggle** | `games/pasar-malam/` (2D) · `games/pasar-malam/3d/` (3D) | Bargain down a night market with a shopping list and a budget. Every stallholder has a secret lowest price and a patience meter: make offers, take their price, or walk away and hope they call you back. Five personalities, three nights, solo or 2 players taking turns at each stall. |
 | **Marina Mini Golf** | `games/marina-golf/` (2D) · `games/marina-golf/3d/` (3D) | Nine holes of mini golf around Singapore: Void Deck, Merlion Park, Esplanade, Lau Pa Sat, Supertree Grove, an MRT crossing, Marina Bay Sands, the Jewel Rain Vortex and the Flyer. Drag back to putt. Water, sand, slopes, bouncy domes, a moving train and a rotating wheel. Solo or 2–4 players passing the phone. |
 | **Cannot Say!** | `games/cannot-say/` (2D) · `games/cannot-say/3d/` (3D) | Team word party game. The describer gets your team to say the word on the card (hawker food, places, Singlish, SG life, getting around) without saying any of its five banned words. Got it, skip or buzz against the clock, then fix mistakes before banking the points. 2–4 teams passing one phone. |
+| **Chapteh Kick** | `games/chapteh-kick/` (2D) · `games/chapteh-kick/3d/` (3D) | Arcade timing game based on the kampung shuttlecock. The chapteh falls to your left foot, knee or right foot; kick the matching zone as the ring closes for Perfects, combos and golden bonuses. 3 chapteh per run, and it speeds up. Rally mode puts two players on one phone (left half vs right half); Turns mode passes it round 2–4 players. |
 
 ## Project layout
 
@@ -72,6 +73,14 @@ games/cannot-say/
   js/board2d.js         SVG game-show studio
   js/board3d.js         Three.js studio: a 3D card that flips and flies, podium score screens, buzzer
   models/studio-assets.glb Stage, LED backdrop and big screen, podiums, buzzer, stopwatch, spotlights, trophy, SG cast
+games/chapteh-kick/
+  index.html, 3d/       2D (SVG) and 3D (Three.js) builds
+  js/engine.js          Chapteh flights (feather-braked arcs), timing windows, zones, combos, lives, rally scoring (no DOM)
+  js/art.js             SVG playground, the kid (posed by two-bone IK) and the chapteh
+  js/flow.js            Solo / Rally / Turns, stage-tap and keyboard controls, pause, results
+  js/board2d.js         SVG board: kick poses, timing ring, score display, effects
+  js/board3d.js         Three.js playground: a jointed kid rig driven by the same leg maths
+  models/chapteh-assets.glb Kid rig, chapteh, dragon playground, rain tree, HDB blocks, scenery, SG cast
 games/agak-agak/
   index.html            2D build (SVG dial)
   3d/index.html         3D build (Three.js dial on a kopitiam table)
