@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>SG Games</title>
+  <meta name="description" content="Party games for the kopitiam table. Grab your kakis, one screen, and play lah." />
+  <meta name="theme-color" content="#F6EFE3" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <meta property="og:title" content="SG Games" />
+  <meta property="og:description" content="Party games for the kopitiam table." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/hub.css" />
+</head>
+<body>
+  <header class="nav">
+    <a class="logo" href="./" aria-label="SG Games home">
+      <span class="logo-tile" aria-hidden="true"></span>
+      <span class="logo-word">SG<span>Games</span></span>
+    </a>
+    <a class="nav-link" href="#games">Games</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Made in Singapore · Free · No download</p>
+        <h1>Games for the<br /><em>kopitiam</em> table.</h1>
+        <p class="lede">Grab your kakis and one screen, and play lah. Party games with a Singapore flavour that run in any browser.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="games/agak-agak/">Play Agak Agak</a>
+          <a class="btn btn-ghost" href="#games">See all games</a>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg class="skyline" id="skyline" viewBox="0 0 1200 360" preserveAspectRatio="xMidYMax slice"></svg>
+      </div>
+    </section>
+
+    <div class="tile-strip" aria-hidden="true"></div>
+
+    <section class="games" id="games" aria-labelledby="games-title">
+      <div class="section-head">
+        <h2 id="games-title">On the menu</h2>
+        <p>More dishes coming. Chope your seat.</p>
+      </div>
+      <div class="grid" id="game-grid"></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>SG Games · Built for lepak sessions</p>
+  </footer>
+
+  <script type="module" src="assets/hub.js"></script>
+</body>
+</html>

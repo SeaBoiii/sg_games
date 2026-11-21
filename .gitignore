@@ -1,0 +1,8 @@
+.DS_Store
+Thumbs.db
+*.blend1
+*.blend@
+__pycache__/
+node_modules/
+_site/
+.claude/settings.local.json
