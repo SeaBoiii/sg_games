@@ -77,6 +77,21 @@ export const GAMES = [
     ],
     status: 'live',
   },
+  {
+    slug: 'marina-golf',
+    title: 'Marina Mini Golf',
+    tagline: 'Fore lah!',
+    blurb:
+      'Nine holes of mini golf around the island. Putt past the Merlion, through the Supertrees, round the MRT train and under the SkyPark. Fewest strokes wins.',
+    tags: ['Solo', '2–4 players', 'Physics', '5–15 min'],
+    accent: '#1E9E62',
+    art: 'golf',
+    links: [
+      { label: 'Play', href: 'games/marina-golf/', primary: true },
+      { label: 'Play in 3D', href: 'games/marina-golf/3d/', badge: 'New' },
+    ],
+    status: 'live',
+  },
   // The two "coming soon" cards below are permanent: keep them last, after every real game.
   {
     slug: 'coming-soon-1',

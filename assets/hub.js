@@ -1,6 +1,8 @@
 import { GAMES } from './games.js';
 import { PATTERN_DEFS as KM_DEFS, customerSVG, cupSVG } from '../games/kopi-master/js/art.js';
 import { goodsSVG } from '../games/pasar-malam/js/art.js';
+import { holeSVG, cupSVG as golfCupSVG, ballSVG } from '../games/marina-golf/js/art.js';
+import { HOLES as GOLF_HOLES } from '../games/marina-golf/js/engine.js';
 
 
 /* ---------- Heartland skyline (HDB blocks) ---------- */
@@ -86,7 +88,7 @@ function arc(cx, cy, r, a0, a1) {
 
 // Miniatures of each game's real 2D screen, so the hub cards match what you get when you tap Play.
 const FONT = 'Bricolage Grotesque, sans-serif';
-const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi', 'pasar']);
+const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi', 'pasar', 'golf']);
 
 function agakArt() {
   const CX = 200, CY = 176, R = 123;
@@ -353,12 +355,32 @@ function pasarArt() {
     </svg>`;
 }
 
+function golfArt() {
+  // miniature of the 2D Marina Bay Sands hole: ball lined up for the gap between the towers
+  const h = GOLF_HOLES.find((x) => x.id === 'mbs');
+  const P = 'hubg-';
+  const { under, over } = holeSVG(h, P);
+  const bx = 300, by = 400, ang = -0.62, len = 190;
+  const ex = bx + Math.cos(ang) * len, ey = by + Math.sin(ang) * len;
+  return `
+    <svg viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      ${under}
+      ${golfCupSVG(h, P)}
+      <line x1="${bx + Math.cos(ang) * 20}" y1="${by + Math.sin(ang) * 20}" x2="${ex}" y2="${ey}" stroke="#FFD877" stroke-width="7" stroke-linecap="round" stroke-dasharray="2 16"/>
+      <path d="M0 -15 L22 0 L0 15 Z" transform="translate(${ex} ${ey}) rotate(${(ang * 180) / Math.PI})" fill="#FFD877" stroke="#20302A" stroke-width="2.5"/>
+      <circle cx="${bx}" cy="${by}" r="24" fill="none" stroke="#fff" stroke-width="3.5" opacity=".75"/>
+      <g transform="translate(${bx} ${by}) scale(1.25)">${ballSVG('#E0457B')}</g>
+      ${over}
+    </svg>`;
+}
+
 const ART = {
   dial: agakArt,
   chope: chopeArt,
   mrt: mrtArt,
   kopi: kopiArt,
   pasar: pasarArt,
+  golf: golfArt,
   wok: () => `
     <svg viewBox="0 0 400 240" aria-hidden="true">
       <path d="M70 120h260a130 70 0 0 1-260 0z" fill="#2A1A12"/>
