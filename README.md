@@ -15,6 +15,7 @@ Party games for the kopitiam table. They are static HTML, CSS and JS, with no bu
 | **Marina Mini Golf** | `games/marina-golf/` (2D) · `games/marina-golf/3d/` (3D) | Nine holes of mini golf around Singapore: Void Deck, Merlion Park, Esplanade, Lau Pa Sat, Supertree Grove, an MRT crossing, Marina Bay Sands, the Jewel Rain Vortex and the Flyer. Drag back to putt. Water, sand, slopes, bouncy domes, a moving train and a rotating wheel. Solo or 2–4 players passing the phone. |
 | **Cannot Say!** | `games/cannot-say/` (2D) · `games/cannot-say/3d/` (3D) | Team word party game. The describer gets your team to say the word on the card (hawker food, places, Singlish, SG life, getting around) without saying any of its five banned words. Got it, skip or buzz against the clock, then fix mistakes before banking the points. 2–4 teams passing one phone. |
 | **Chapteh Kick** | `games/chapteh-kick/` (2D) · `games/chapteh-kick/3d/` (3D) | Arcade timing game based on the kampung shuttlecock. The chapteh falls to your left foot, knee or right foot; kick the matching zone as the ring closes for Perfects, combos and golden bonuses. 3 chapteh per run, and it speeds up. Rally mode puts two players on one phone (left half vs right half); Turns mode passes it round 2–4 players. |
+| **Kiasu Quiz** | `games/kiasu-quiz/` (2D) · `games/kiasu-quiz/3d/` (3D) | Singapore trivia game show with 128 questions on history, places, makan, Singlish and SG life, each with a "Did you know?" fact. Solo: beat the clock with three lifelines (Kiasu 50:50, Ask Auntie, Chope next). Buzzer battle: 2–4 players buzz in on one screen; wrong answers lose points and let others steal. |
 
 ## Project layout
 
@@ -81,6 +82,15 @@ games/chapteh-kick/
   js/board2d.js         SVG board: kick poses, timing ring, score display, effects
   js/board3d.js         Three.js playground: a jointed kid rig driven by the same leg maths
   models/chapteh-assets.glb Kid rig, chapteh, dragon playground, rain tree, HDB blocks, scenery, SG cast
+games/kiasu-quiz/
+  index.html, 3d/       2D (SVG) and 3D (Three.js) builds
+  js/questions.js       The question bank: 128 questions in five categories, with difficulty and a fact for each
+  js/engine.js          Question sets (easy to hard), solo timing and streaks, lifelines, buzz-in/steal rules (no DOM)
+  js/art.js             SVG studio, question board, answer tiles, podiums; the host reuses Kopi Master's art
+  js/flow.js            Setup, solo and buzzer flows, reveal with facts, keyboard buzzers, results
+  js/board2d.js         SVG studio board
+  js/board3d.js         Three.js studio: live canvas screen and tiles, podiums with buzzers, host desk
+  models/quiz-assets.glb Quiz wall with bulbs, podium with buzzer dome, host desk, light truss, SG cast
 games/agak-agak/
   index.html            2D build (SVG dial)
   3d/index.html         3D build (Three.js dial on a kopitiam table)

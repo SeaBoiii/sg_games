@@ -122,6 +122,21 @@ export const GAMES = [
     ],
     status: 'live',
   },
+  {
+    slug: 'kiasu-quiz',
+    title: 'Kiasu Quiz',
+    tagline: 'Steady or not?',
+    blurb:
+      'The Singapore trivia game show: history, places, makan, Singlish and SG life. Beat the clock solo with lifelines, or battle on the buzzers with up to 4 players.',
+    tags: ['Solo', '2–4 players', 'Trivia', '5–10 min'],
+    accent: '#0F7C8A',
+    art: 'quiz',
+    links: [
+      { label: 'Play', href: 'games/kiasu-quiz/', primary: true },
+      { label: 'Play in 3D', href: 'games/kiasu-quiz/3d/', badge: 'New' },
+    ],
+    status: 'live',
+  },
   // The two "coming soon" cards below are permanent: keep them last, after every real game.
   {
     slug: 'coming-soon-1',

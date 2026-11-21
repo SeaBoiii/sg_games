@@ -6,6 +6,8 @@ import { HOLES as GOLF_HOLES } from '../games/marina-golf/js/engine.js';
 import { studioSVG, timerSVG, cardFrontSVG, TIMER_R } from '../games/cannot-say/js/art.js';
 import { CARDS as SAY_CARDS } from '../games/cannot-say/js/cards.js';
 import { sceneSVG as ckScene, kidKickSVG, chaptehSVG, OUTFITS as CK_OUTFITS, ZONE_COLORS as CK_ZONES, GY as CK_GY, px as ckX, py as ckY } from '../games/chapteh-kick/js/art.js';
+import { studioSVG as kqStudio, hostSVG as kqHost, questionSVG as kqQuestion, tileSVG as kqTile, podiumSVG as kqPodium, SCREEN as KQ_SCREEN } from '../games/kiasu-quiz/js/art.js';
+import { QUESTIONS as KQ_QUESTIONS } from '../games/kiasu-quiz/js/questions.js';
 
 
 /* ---------- Heartland skyline (HDB blocks) ---------- */
@@ -91,7 +93,7 @@ function arc(cx, cy, r, a0, a1) {
 
 // Miniatures of each game's real 2D screen, so the hub cards match what you get when you tap Play.
 const FONT = 'Bricolage Grotesque, sans-serif';
-const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi', 'pasar', 'golf', 'say', 'chapteh']);
+const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi', 'pasar', 'golf', 'say', 'chapteh', 'quiz']);
 
 function agakArt() {
   const CX = 200, CY = 176, R = 123;
@@ -425,6 +427,25 @@ function chaptehArt() {
     </svg>`;
 }
 
+function quizArt() {
+  // miniature of the 2D studio mid-question in a buzzer battle: Player 2 has buzzed in,
+  // Player 1 is locked out after a wrong answer
+  const base = KQ_QUESTIONS.find((q) => q.id === 'food-1');
+  const q = { ...base, opts: base.answers.slice(), right: 0 };
+  const players = [{ name: 'Ah Boy', color: '#E0457B', score: 300 }, { name: 'Mei Ling', color: '#2D6FD1', score: 500 }, { name: 'Raj', color: '#F2B134', score: 200 }];
+  const span = 796, gap = 16, w = (span - gap * 2) / 3;
+  const { x, y, w: sw, h } = KQ_SCREEN;
+  return `
+    <svg viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      ${kqStudio('hubkq-')}
+      ${kqQuestion(q, 4, 10)}
+      <rect x="${x + 26}" y="${y + h - 22}" width="${(sw - 52) * 0.55}" height="9" rx="4.5" fill="#2D6FD1"/>
+      ${q.opts.map((o, i) => kqTile(i, o, i === 2 ? 'tried' : '')).join('')}
+      ${players.map((p, i) => kqPodium({ ...p, idx: i }, 178 + i * (w + gap), w, i === 1 ? 'buzzed' : i === 0 ? 'locked' : '')).join('')}
+      <g transform="translate(86 392)">${kqHost('happy')}</g>
+    </svg>`;
+}
+
 const ART = {
   dial: agakArt,
   chope: chopeArt,
@@ -434,6 +455,7 @@ const ART = {
   golf: golfArt,
   say: sayArt,
   chapteh: chaptehArt,
+  quiz: quizArt,
   wok: () => `
     <svg viewBox="0 0 400 240" aria-hidden="true">
       <path d="M70 120h260a130 70 0 0 1-260 0z" fill="#2A1A12"/>
