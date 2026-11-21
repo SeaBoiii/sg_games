@@ -1,5 +1,6 @@
 // Game registry for the SG Games hub.
-// To add a game: drop it in /games/<slug>/ and add an entry here.
+// To add a game: drop it in /games/<slug>/ and add an entry here, above the two
+// permanent "coming soon" cards at the end.
 export const GAMES = [
   {
     slug: 'agak-agak',
@@ -30,6 +31,17 @@ export const GAMES = [
       { label: 'Play in 3D', href: 'games/chope-wars/3d/', badge: 'New' },
     ],
     status: 'live',
+  },
+  // The two "coming soon" cards below are permanent: keep them last, after every real game.
+  {
+    slug: 'coming-soon-1',
+    title: 'Next game cooking…',
+    tagline: 'Still in the wok',
+    blurb: 'More party games for your kopitiam table are on the way. Chope a seat first.',
+    tags: ['Coming soon'],
+    accent: '#1F8A8A',
+    art: 'wok',
+    status: 'soon',
   },
   {
     slug: 'coming-soon-2',
