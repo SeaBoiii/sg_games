@@ -47,6 +47,21 @@ export const GAMES = [
     ],
     status: 'live',
   },
+  {
+    slug: 'kopi-master',
+    title: 'Kopi Master',
+    tagline: 'Kopi C siew dai peng!',
+    blurb:
+      'Run the drinks stall at the kopitiam. Customers order in real kopitiam lingo; build each kopi, teh or Milo before they lose patience. Learn what O, C, siew dai and peng mean along the way.',
+    tags: ['Solo', 'Speed', 'Learn the lingo', '2–4 min'],
+    accent: '#6B3E26',
+    art: 'kopi',
+    links: [
+      { label: 'Play', href: 'games/kopi-master/', primary: true },
+      { label: 'Play in 3D', href: 'games/kopi-master/3d/', badge: 'New' },
+    ],
+    status: 'live',
+  },
   // The two "coming soon" cards below are permanent: keep them last, after every real game.
   {
     slug: 'coming-soon-1',

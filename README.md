@@ -10,6 +10,7 @@ Party games for the kopitiam table. They are static HTML, CSS and JS, with no bu
 
 | **Chope Wars** | `games/chope-wars/` (2D) · `games/chope-wars/3d/` (3D) | Claim hawker-centre tables one tissue packet at a time. Stools are shared between tables; fill a table's 4 stools to claim it (most packets wins, a 2–2 tie goes to the last chope). Fan tables are worth 2 and famous-stall tables 3, and each player can call the cleaner auntie once. 2 players on one screen, or solo against Uncle Lim (CPU, Chill or Kiasu). |
 | **MRT Rush** | `games/mrt-rush/` (2D) · `games/mrt-rush/3d/` (3D) | Solo puzzle-arcade. Pack peak-hour commuters into a carriage before the doors close: people must be able to walk in from the open door, bags and trolleys stay off seats, uncles and mums-to-be need seats, and the doorway must be clear. Three fictional lines (Kaya, Teh, Bandung) with stars and best scores. |
+| **Kopi Master** | `games/kopi-master/` (2D) · `games/kopi-master/3d/` (3D) | Solo speed game at a kopitiam drinks stall. Customers order in real lingo (O, C, siew dai, ka dai, kosong, peng, gau, po, tapau, teh tarik, yuan yang, Milo Dinosaur); tap the ingredients into the cup and serve before they lose patience. Breakfast, Lunch and Supper shifts plus Endless, with a lingo cheat sheet. |
 
 ## Project layout
 
@@ -35,6 +36,14 @@ games/mrt-rush/
   js/board2d.js         SVG carriage (also exports the commuter drawings used in the queue)
   js/board3d.js         Three.js carriage built from Blender templates
   models/mrt-assets.glb Seat, wall, door, pole, ten unique textured commuters (standing + seated, each fits one grid square) and textured luggage; Draco-compressed
+games/kopi-master/
+  index.html, 3d/       2D (SVG) and 3D (Three.js) builds
+  js/engine.js          Order generator (lingo -> recipe), shifts, patience, scoring, glossary (no DOM)
+  js/art.js             SVG customers, the drink in the cup, ingredient icons (also used by the hub card)
+  js/flow.js            Shift select, live loop, ingredient pad + keyboard, serving feedback, results
+  js/board2d.js         SVG stall scene
+  js/board3d.js         Three.js stall with HTML speech bubbles that follow each customer
+  models/kopi-assets.glb Counter, stall props, cup/glass/tapau bag, customers (from MRT Rush) and hall furniture
 games/agak-agak/
   index.html            2D build (SVG dial)
   3d/index.html         3D build (Three.js dial on a kopitiam table)

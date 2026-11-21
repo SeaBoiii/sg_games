@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Kopi Master: a kopitiam cup of kopi on its saucer, green rim, steam -->
+  <rect width="64" height="64" rx="14" fill="#6B3E26"/>
+  <ellipse cx="31" cy="50" rx="23" ry="5" fill="#F7F3EA" stroke="#2A1A12" stroke-width="2.5"/>
+  <path d="M44 26q9 1 8 8q-1 6 -9 6" fill="none" stroke="#F7F3EA" stroke-width="5" stroke-linecap="round"/>
+  <path d="M14 22q1 22 7 26h20q6 -4 7 -26z" fill="#F7F3EA" stroke="#2A1A12" stroke-width="2.5"/>
+  <path d="M14 22h34" stroke="#2E7D5B" stroke-width="3"/>
+  <ellipse cx="31" cy="24" rx="15" ry="3.5" fill="#8A5A36"/>
+  <path d="M25 16q-3 -4 0 -8M33 16q-3 -4 0 -8" fill="none" stroke="#F2E6C9" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

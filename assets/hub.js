@@ -1,4 +1,5 @@
 import { GAMES } from './games.js';
+import { PATTERN_DEFS as KM_DEFS, customerSVG, cupSVG } from '../games/kopi-master/js/art.js';
 
 
 /* ---------- Heartland skyline (HDB blocks) ---------- */
@@ -78,7 +79,7 @@ function arc(cx, cy, r, a0, a1) {
 
 // Miniatures of each game's real 2D screen, so the hub cards match what you get when you tap Play.
 const FONT = 'Bricolage Grotesque, sans-serif';
-const BLEED = new Set(['dial', 'chope', 'mrt']);
+const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi']);
 
 function agakArt() {
   const CX = 200, CY = 176, R = 123;
@@ -269,10 +270,45 @@ function mrtArt() {
     </svg>`;
 }
 
+function kopiArt() {
+  // miniature of the 2D stall: an auntie orders across the counter, an iced kopi C is being built
+  const INK = '#2A1A12';
+  let tiles = '';
+  for (let x = 0; x < 400; x += 20) tiles += `<rect x="${x}" y="96" width="20" height="20" fill="${(x / 20) % 2 ? '#2F6B4F' : '#E8EFE6'}"/>`;
+  const fan = (x) => `<g transform="translate(${x} 14)"><rect x="-1.5" y="-14" width="3" height="10" fill="#C9CED1"/><g class="fan-blades" style="transform-origin:${x}px 14px">${[0, 120, 240].map((a) => `<ellipse rx="34" ry="4.5" transform="rotate(${a})" fill="#F4F1EA" stroke="${INK}" stroke-width="1.2"/>`).join('')}</g><circle r="5" fill="#E8E2D6" stroke="${INK}" stroke-width="1.2"/></g>`;
+  const cup = { kopi: 1, teh: 0, milo: 0, condensed: 0, evaporated: 1, sugar: 1, ice: 1, water: 0, tarik: 0, bag: 0 };
+  return `
+    <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>${KM_DEFS}
+        <linearGradient id="km-hub-wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF6E4"/><stop offset="1" stop-color="#F3E2C4"/></linearGradient>
+        <linearGradient id="km-hub-top" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DDE2E4"/><stop offset="1" stop-color="#B9C0C4"/></linearGradient>
+      </defs>
+      <rect width="400" height="250" fill="url(#km-hub-wall)"/>
+      <g opacity=".5">${tiles}</g>
+      <rect y="116" width="400" height="80" fill="#E9DCC5"/>
+      ${fan(70)}${fan(330)}
+      <g opacity=".5"><ellipse cx="330" cy="150" rx="40" ry="10" fill="#F1EDE6" stroke="${INK}" stroke-width="1.5"/><rect x="327" y="150" width="6" height="36" fill="#9AA4A8"/></g>
+      <g transform="translate(140 140) scale(.5)">${customerSVG('aunty', 'happy')}</g>
+      <g transform="translate(140 0)">
+        <rect x="-82" y="24" width="164" height="50" rx="12" fill="#FFFCF5" stroke="#1F8A8A" stroke-width="4"/>
+        <path d="M-8 73l8 12 8 -12z" fill="#FFFCF5" stroke="${INK}" stroke-width="2"/>
+        <text y="46" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="15" fill="${INK}">Kopi C siew dai</text>
+        <text y="64" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="15" fill="${INK}">peng</text>
+        <rect x="-32" y="14" width="64" height="16" rx="8" fill="#1F8A8A" stroke="${INK}" stroke-width="1.5"/>
+        <text y="26" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="8.5" letter-spacing="1" fill="#fff">SERVING</text>
+      </g>
+      <rect y="190" width="400" height="60" fill="url(#km-hub-top)"/>
+      <rect y="186" width="400" height="7" fill="#9AA4A8" stroke="${INK}" stroke-width="1.5"/>
+      <rect y="236" width="400" height="14" fill="#6B3E26"/>
+      <g transform="translate(290 240) scale(.42)">${cupSVG(cup)}</g>
+    </svg>`;
+}
+
 const ART = {
   dial: agakArt,
   chope: chopeArt,
   mrt: mrtArt,
+  kopi: kopiArt,
   wok: () => `
     <svg viewBox="0 0 400 240" aria-hidden="true">
       <path d="M70 120h260a130 70 0 0 1-260 0z" fill="#2A1A12"/>
