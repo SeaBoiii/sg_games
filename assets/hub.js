@@ -1,5 +1,6 @@
 import { GAMES } from './games.js';
 import { PATTERN_DEFS as KM_DEFS, customerSVG, cupSVG } from '../games/kopi-master/js/art.js';
+import { goodsSVG } from '../games/pasar-malam/js/art.js';
 
 
 /* ---------- Heartland skyline (HDB blocks) ---------- */
@@ -85,7 +86,7 @@ function arc(cx, cy, r, a0, a1) {
 
 // Miniatures of each game's real 2D screen, so the hub cards match what you get when you tap Play.
 const FONT = 'Bricolage Grotesque, sans-serif';
-const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi']);
+const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi', 'pasar']);
 
 function agakArt() {
   const CX = 200, CY = 176, R = 123;
@@ -310,11 +311,54 @@ function kopiArt() {
     </svg>`;
 }
 
+function pasarArt() {
+  // miniature of the 2D stall: Uncle Seng haggling over a rattan basket under string lights
+  const INK = '#2A1A12';
+  let bulbs = '', stars = '';
+  const cols = ['#FFD877', '#FF9FBF', '#9FD3FF', '#B6F2A0'];
+  for (let i = 0; i < 14; i++) { const x = 10 + i * 29, y = 18 + Math.sin(i * 0.6) * 6; bulbs += `<circle cx="${x}" cy="${y + 4}" r="7" fill="${cols[i % 4]}" opacity=".3"/><ellipse cx="${x}" cy="${y + 4}" rx="3" ry="4" fill="${cols[i % 4]}"/>`; }
+  for (let i = 0; i < 20; i++) stars += `<circle cx="${(i * 97) % 400}" cy="${(i * 29) % 50}" r="1" fill="#fff" opacity=".5"/>`;
+  const wire = Array.from({ length: 14 }, (_, i) => `${10 + i * 29} ${18 + Math.sin(i * 0.6) * 6}`).join(' L');
+  let canopy = '';
+  for (let i = 0; i < 10; i++) canopy += `<rect x="${70 + i * 26}" y="44" width="26" height="34" fill="${i % 2 ? '#FFF8E8' : '#D7263D'}"/>`;
+  let scal = '';
+  for (let i = 0; i < 10; i++) scal += `<path d="M${70 + i * 26} 78 q13 12 26 0" fill="${i % 2 ? '#FFF8E8' : '#D7263D'}" stroke="${INK}" stroke-width="2"/>`;
+  return `
+    <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>${KM_DEFS}
+        <linearGradient id="pm-hub-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B1F4A"/><stop offset=".7" stop-color="#3A2A5E"/><stop offset="1" stop-color="#5C3A62"/></linearGradient>
+        <pattern id="pm-hub-cloth" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#D7263D"/><rect width="8" height="8" fill="#FFF8E8" opacity=".35"/><rect x="8" y="8" width="8" height="8" fill="#FFF8E8" opacity=".35"/></pattern>
+      </defs>
+      <rect width="400" height="250" fill="url(#pm-hub-sky)"/>${stars}
+      <rect y="190" width="400" height="60" fill="#2B2230"/>
+      <path d="M${wire}" fill="none" stroke="#1A1512" stroke-width="1.5"/>${bulbs}
+      <rect x="74" y="78" width="5" height="120" fill="#5B4636"/><rect x="321" y="78" width="5" height="120" fill="#5B4636"/>
+      <g stroke="${INK}" stroke-width="2">${canopy}</g>${scal}
+      <rect x="122" y="51" width="156" height="22" rx="5" fill="#1A1512" stroke="#FFD877" stroke-width="1.5"/>
+      <text x="200" y="66" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="10" letter-spacing=".5" fill="#FFD877">UNCLE SENG'S STALL</text>
+      <g transform="translate(262 146) scale(.38)">${customerSVG('uncle', 'happy')}</g>
+      <g transform="translate(300 100)">
+        <rect x="-52" y="-14" width="104" height="30" rx="9" fill="#FFFCF5" stroke="${INK}" stroke-width="2"/>
+        <path d="M-30 15 l-10 12 18 -12z" fill="#FFFCF5" stroke="${INK}" stroke-width="2"/>
+        <text y="6" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="11" fill="${INK}">Okay lah, $15.50!</text>
+      </g>
+      <rect x="66" y="186" width="268" height="70" fill="url(#pm-hub-cloth)" stroke="${INK}" stroke-width="2"/>
+      <rect x="66" y="182" width="268" height="7" rx="2" fill="#8E6A3A" stroke="${INK}" stroke-width="1.5"/>
+      <g transform="translate(148 164) scale(.5)">${goodsSVG('basket')}</g>
+      <g transform="translate(262 214)">
+        <rect x="-44" y="-24" width="88" height="44" rx="5" fill="#22302A" stroke="#C79A5B" stroke-width="3"/>
+        <text y="-7" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="10" fill="#E8EFE6" opacity=".6" text-decoration="line-through">$21.00</text>
+        <text y="14" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="18" fill="#FFD877">$15.50</text>
+      </g>
+    </svg>`;
+}
+
 const ART = {
   dial: agakArt,
   chope: chopeArt,
   mrt: mrtArt,
   kopi: kopiArt,
+  pasar: pasarArt,
   wok: () => `
     <svg viewBox="0 0 400 240" aria-hidden="true">
       <path d="M70 120h260a130 70 0 0 1-260 0z" fill="#2A1A12"/>

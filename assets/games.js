@@ -62,6 +62,21 @@ export const GAMES = [
     ],
     status: 'live',
   },
+  {
+    slug: 'pasar-malam',
+    title: 'Pasar Malam Haggle',
+    tagline: 'Last price, can?',
+    blurb:
+      'Bargain your way down a night market. Every stallholder has a secret lowest price and only so much patience. Offer, walk away, and grab the deal before they chase you off.',
+    tags: ['Solo', '2 players', 'Bargaining', '5–8 min'],
+    accent: '#3A2A5E',
+    art: 'pasar',
+    links: [
+      { label: 'Play', href: 'games/pasar-malam/', primary: true },
+      { label: 'Play in 3D', href: 'games/pasar-malam/3d/', badge: 'New' },
+    ],
+    status: 'live',
+  },
   // The two "coming soon" cards below are permanent: keep them last, after every real game.
   {
     slug: 'coming-soon-1',
