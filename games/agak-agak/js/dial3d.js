@@ -4,8 +4,8 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { BAND } from './engine.js';
-import { tween, ease, reducedMotion } from './fx.js';
-import { sfx, buzz } from './sfx.js';
+import { tween, ease, reducedMotion } from '../../../assets/lib/fx.js';
+import { sfx, buzz } from '../../../assets/lib/sfx.js';
 
 const D2R = Math.PI / 180;
 const mod = (n, m) => ((n % m) + m) % m;

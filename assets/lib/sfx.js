@@ -1,9 +1,9 @@
-// Tiny synthesized sound kit — no audio files needed.
-const KEY = 'agak.muted';
+// Shared by every SG Games title. Tiny synthesized sound kit — no audio files needed.
+const KEY = 'sg.muted';
 let ctx = null;
 let master = null;
 let muted = false;
-try { muted = localStorage.getItem(KEY) === '1'; } catch {}
+try { muted = (localStorage.getItem(KEY) ?? localStorage.getItem('agak.muted')) === '1'; } catch {}
 
 function ac() {
   if (!ctx) {
@@ -88,6 +88,12 @@ export const sfx = {
       noise({ t: 0.6, vol: 0.06, from: 4000, to: 8000, delay: n * 0.09 });
     }
   },
+  plop: () => { noise({ t: 0.09, vol: 0.18, from: 2400, to: 900, q: 1.2 }); tone({ f: 320, f2: 180, t: 0.09, type: 'sine', vol: 0.18 }); },
+  claim: (good = true) => {
+    const seq = good ? [659.25, 880, 1174.66] : [392, 329.63, 261.63];
+    seq.forEach((f, i) => tone({ f, t: 0.16, type: 'triangle', vol: 0.18, delay: i * 0.07 }));
+  },
+  sweep: () => { noise({ t: 0.35, vol: 0.18, from: 3000, to: 600, q: 0.6 }); noise({ t: 0.3, vol: 0.12, from: 2000, to: 500, q: 0.6, delay: 0.2 }); },
   win() {
     const seq = [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5, 1318.5];
     seq.forEach((f, i) => tone({ f, t: 0.28, type: 'triangle', vol: 0.22, delay: i * 0.12 }));

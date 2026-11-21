@@ -91,6 +91,19 @@ const ART = {
       <text x="58" y="222" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="17" fill="#FBF6EC">← SHIOK</text>
       <text x="342" y="222" text-anchor="end" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="17" fill="#FBF6EC">SIAN →</text>
     </svg>`,
+  chope: () => {
+    const tbl = (x, y, own) => `<circle cx="${x}" cy="${y}" r="34" fill="${own || '#FBF6EC'}" stroke="#2A1A12" stroke-width="4"/>`;
+    const st = (x, y) => `<circle cx="${x}" cy="${y}" r="13" fill="#F0E6D6" stroke="#2A1A12" stroke-width="3"/>`;
+    const pk = (x, y, c, r) => `<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-14" y="-9" width="28" height="18" rx="4" fill="${c}" stroke="#2A1A12" stroke-width="2.5"/><rect x="-4" y="-8" width="8" height="16" fill="#fff" opacity=".8"/></g>`;
+    const P = '#E0457B', B = '#2D6FD1';
+    return `<svg viewBox="0 0 400 240" aria-hidden="true">
+      ${tbl(130, 80, P)}${tbl(270, 80)}${tbl(130, 180)}${tbl(270, 180, B)}
+      ${[[130, 30], [270, 30], [80, 80], [200, 80], [320, 80], [130, 130], [270, 130], [80, 180], [200, 180], [320, 180], [130, 230], [270, 230]].map(([x, y]) => st(x, y)).join('')}
+      ${pk(130, 30, P, -10)}${pk(80, 80, P, 12)}${pk(200, 80, P, -6)}${pk(130, 130, B, 8)}${pk(270, 130, B, -12)}${pk(320, 180, B, 6)}${pk(200, 180, B, -8)}${pk(270, 230, P, 10)}${pk(320, 80, B, -4)}
+      <text x="130" y="88" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="15" fill="#fff">CHOPED</text>
+      <text x="270" y="188" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="15" fill="#fff">CHOPED</text>
+    </svg>`;
+  },
   wok: () => `
     <svg viewBox="0 0 400 240" aria-hidden="true">
       <path d="M70 120h260a130 70 0 0 1-260 0z" fill="#2A1A12"/>

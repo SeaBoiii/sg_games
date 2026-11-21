@@ -1,7 +1,7 @@
 // 2D dial — SVG renderer for Agak Agak.
 import { BAND } from './engine.js';
-import { tween, ease } from './fx.js';
-import { sfx, buzz } from './sfx.js';
+import { tween, ease } from '../../../assets/lib/fx.js';
+import { sfx, buzz } from '../../../assets/lib/sfx.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 const CX = 500, CY = 470, R = 410;

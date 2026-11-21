@@ -17,14 +17,19 @@ export const GAMES = [
     status: 'live',
   },
   {
-    slug: 'coming-soon-1',
-    title: 'Next game cooking…',
-    tagline: 'Still in the wok',
-    blurb: 'More party games for your kopitiam table are on the way. Chope a seat first.',
-    tags: ['Coming soon'],
-    accent: '#1F8A8A',
-    art: 'wok',
-    status: 'soon',
+    slug: 'chope-wars',
+    title: 'Chope Wars',
+    tagline: 'One tissue packet at a time',
+    blurb:
+      'Lunchtime at the hawker centre. Drop tissue packets on stools, win tables under the fan, and call the cleaner auntie when you need to. 2 players on one screen, or solo against Uncle Lim.',
+    tags: ['2 players', 'Solo vs CPU', 'Pass & play', '5–10 min'],
+    accent: '#E0457B',
+    art: 'chope',
+    links: [
+      { label: 'Play', href: 'games/chope-wars/', primary: true },
+      { label: 'Play in 3D', href: 'games/chope-wars/3d/', badge: 'New' },
+    ],
+    status: 'live',
   },
   {
     slug: 'coming-soon-2',

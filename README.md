@@ -8,6 +8,8 @@ Party games for the kopitiam table. They are static HTML, CSS and JS, with no bu
 | --- | --- | --- |
 | **Agak Agak** | `games/agak-agak/` (2D) · `games/agak-agak/3d/` (3D) | A Singapore-edition spectrum guessing game. Spin a hidden target, give one clue, and get your team to move the needle as close as possible. Two modes. **Teams** is pass and play on one screen, using about 100 SG Edition cards or a Blank deck where the Psychic says the question and both ends out loud. **Solo** is you against the house: 10 cards with ready-made clues, scored out of 40. Best on a phone held in landscape. |
 
+| **Chope Wars** | `games/chope-wars/` (2D) · `games/chope-wars/3d/` (3D) | Claim hawker-centre tables one tissue packet at a time. Stools are shared between tables; fill a table's 4 stools to claim it (most packets wins, a 2–2 tie goes to the last chope). Fan tables are worth 2 and famous-stall tables 3, and each player can call the cleaner auntie once. 2 players on one screen, or solo against Uncle Lim (CPU, Chill or Kiasu). |
+
 ## Project layout
 
 ```
@@ -17,6 +19,14 @@ assets/
   games.js              Game registry; the hub renders its cards from this
   hub.css, hub.js       Landing page styles + HDB skyline art
   tile.svg, favicon.svg Shared Peranakan tile and logo
+  lib/sfx.js, lib/fx.js Shared synthesised sounds, tweens and confetti for every game
+games/chope-wars/
+  index.html, 3d/       2D (SVG) and 3D (Three.js) builds
+  js/engine.js          Rules, scoring and the Uncle Lim CPU (no DOM)
+  js/flow.js            Setup, turns, cleaner auntie, undo, results (shared by 2D and 3D)
+  js/board2d.js         SVG board
+  js/board3d.js         Three.js board built from Blender templates
+  models/chope-assets.glb  Table, stool, tissue packet, fan, stall, tent card and tray templates
 games/agak-agak/
   index.html            2D build (SVG dial)
   3d/index.html         3D build (Three.js dial on a kopitiam table)

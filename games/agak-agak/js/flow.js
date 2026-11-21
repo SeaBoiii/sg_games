@@ -2,8 +2,8 @@
 // The build supplies a "dial" (SVG or Three.js); everything else lives here.
 import * as E from './engine.js';
 import { CARDS } from './cards.js';
-import { sfx, buzz } from './sfx.js';
-import { confetti, wait } from './fx.js';
+import { sfx, buzz } from '../../../assets/lib/sfx.js';
+import { confetti, wait } from '../../../assets/lib/fx.js';
 import { soloRank } from './solo.js';
 
 const SAVE_KEY = 'agak.state.v1';
