@@ -1,8 +1,10 @@
 // MRT Rush — 3D carriage (Three.js). Same adapter API as Board2D.
-// Seats, wall panels, door leaves, poles, commuters and their bags are Blender-made templates
-// in a GLB; this file lays them out from the game grid.
+// Seats, wall panels, door leaves, poles, ten unique textured commuters (standing + seated) and their
+// luggage are Blender-made templates in a Draco-compressed GLB; this file lays them out from the game grid.
+// Every character fits inside its 0.6 m grid square, so neighbours never overlap.
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import * as E from './engine.js';
 import { TYPE_COLORS } from './board2d.js';
@@ -13,9 +15,20 @@ const CELL = 0.6;
 const HALF_W = (E.COLS * CELL) / 2;
 const HALF_D = (E.ROWS * CELL) / 2;
 const FONT = '"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif';
-const SKIN = ['#F2C9A0', '#D9A47A', '#B07A4F', '#8D5A3B', '#E8B68F'];
-const HAIR = ['#2A1A12', '#3B2A20', '#1A1512', '#6B4E3A', '#4A3A30'];
-const PANTS = ['#2E3340', '#3B3F4A', '#2A2F3A', '#4A4038'];
+const DRACO_PATH = 'https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/libs/draco/gltf/';
+const CHAR_KEYS = ['worker_a', 'worker_b', 'student_a', 'student_b', 'aunty', 'ns', 'parent', 'kid', 'uncle', 'expecting'];
+const ITEM_TPL = { bag: 'BagTpl', trolley: 'TrolleyTpl', pack: 'PackTpl', stroller: 'StrollerTpl' };
+
+/** Which of the ten characters plays this commuter. Workers and students alternate between two people. */
+function charKey(type, kind, id) {
+  if (kind === 'kid') return 'kid';
+  switch (type) {
+    case 'worker': return id % 2 ? 'worker_b' : 'worker_a';
+    case 'student': return id % 2 ? 'student_b' : 'student_a';
+    case 'family': return 'parent';
+    default: return type; // aunty, ns, uncle, expecting
+  }
+}
 const D2R = Math.PI / 180;
 
 const cellPos = (r, c) => new THREE.Vector3((c - (E.COLS - 1) / 2) * CELL, 0, (r - (E.ROWS - 1) / 2) * CELL);
@@ -89,15 +102,21 @@ export class Board3D {
   }
 
   async _load(url) {
-    const gltf = await new GLTFLoader().loadAsync(url, (e) => {
+    const draco = new DRACOLoader().setDecoderPath(DRACO_PATH);
+    const gltf = await new GLTFLoader().setDRACOLoader(draco).loadAsync(url, (e) => {
       if (e.total) this.loadingEl.querySelector('.pct').textContent = `${Math.round((e.loaded / e.total) * 100)}%`;
     });
     if (document.fonts) await document.fonts.ready;
     this.tpl = {};
     gltf.scene.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
-    for (const n of ['SeatTpl', 'WallTpl', 'DoorTpl', 'PoleTpl', 'PersonTpl', 'PersonSitTpl', 'BagTpl', 'TrolleyTpl', 'PackTpl', 'StrollerTpl']) {
+    const names = ['SeatTpl', 'WallTpl', 'DoorTpl', 'PoleTpl', ...Object.values(ITEM_TPL)];
+    for (const k of CHAR_KEYS) names.push(`Char_${k}_Stand`, `Char_${k}_Sit`);
+    for (const n of names) {
       const t = gltf.scene.getObjectByName(n);
+      if (!t) { console.warn('missing template', n); continue; }
       t.position.set(0, 0, 0);
+      t.updateMatrixWorld(true);
+      t.userData.height = new THREE.Box3().setFromObject(t).max.y;
       this.tpl[n] = t;
     }
     this.ready = true;
@@ -329,15 +348,6 @@ export class Board3D {
     this.tunnel.visible = false;
   }
 
-  _personMats(m, type, id) {
-    const n = m.name;
-    if (n.startsWith('Torso') || n.startsWith('Arm')) return TYPE_COLORS[type];
-    if (n.startsWith('Head')) return SKIN[id % SKIN.length];
-    if (n.startsWith('Hair')) return type === 'uncle' ? '#C9C3B8' : HAIR[id % HAIR.length];
-    if (n.startsWith('Leg') || n.startsWith('Thigh') || n.startsWith('Shin')) return type === 'expecting' ? '#F7B6C8' : PANTS[id % PANTS.length];
-    return null;
-  }
-
   _badge(stops) {
     const cv = document.createElement('canvas');
     cv.width = cv.height = 64;
@@ -358,33 +368,24 @@ export class Board3D {
     const g = new THREE.Group();
     const [ar, ac] = rd.cells ? rd.cells[0] : [0, 0];
     const cells = rd.cells || E.shapeCells(rd.type, 0).map(([r, c, k]) => [r, c, k]);
-    const facing = ((rd.id * 47) % 360) * D2R;
+    // standing riders face one of four directions, so every model stays inside its own square
+    const facing = ((rd.id * 7) % 4) * (Math.PI / 2);
     for (const [r, c, k] of cells) {
       const local = new THREE.Vector3((c - ac) * CELL, 0, (r - ar) * CELL);
       const seat = !onPlatform && rd.cells && E.isSeat(r, c);
       let o;
       if (k === 'p' || k === 'kid') {
-        o = this._clone(seat ? 'PersonSitTpl' : 'PersonTpl', (n) => this._personMats({ name: n }, rd.type, rd.id));
-        if (k === 'kid') o.scale.setScalar(0.65);
+        const name = `Char_${charKey(rd.type, k, rd.id)}_${seat ? 'Sit' : 'Stand'}`;
+        o = this.tpl[name].clone(true);
         if (seat) o.rotation.y = r === 0 ? 0 : Math.PI;
         else o.rotation.y = onPlatform ? (rd.side === 'top' ? Math.PI : 0) : facing;
-        if (rd.type === 'expecting') {
-          const belly = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 12), new THREE.MeshStandardMaterial({ color: '#E88EA6', roughness: 0.6 }));
-          belly.position.set(0, seat ? 0.78 : 1.02, 0.14);
-          o.add(belly);
-        }
-        if (rd.type === 'uncle' && !seat) {
-          const cane = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.9, 8), new THREE.MeshStandardMaterial({ color: '#6B3E26' }));
-          cane.position.set(0.3, 0.45, 0.1);
-          o.add(cane);
-        }
         if (k === 'p' && rd.stops != null && !ghost) {
           const b = this._badge(rd.stops);
-          b.position.set(0, seat ? 1.55 : 1.95, 0);
+          b.position.set(0, (this.tpl[name].userData.height || 1.7) + 0.2, 0);
           o.add(b);
         }
       } else {
-        o = this._clone({ bag: 'BagTpl', trolley: 'TrolleyTpl', pack: 'PackTpl', stroller: 'StrollerTpl' }[k]);
+        o = this.tpl[ITEM_TPL[k]].clone(true);
         o.rotation.y = facing;
       }
       o.position.copy(local);
@@ -392,14 +393,22 @@ export class Board3D {
     }
     if (TE_PRIORITY.has(rd.type) && rd.cells && !ghost && !onPlatform) {
       const seated = E.isSeat(...rd.cells[0].slice(0, 2));
-      const ring = new THREE.Mesh(new THREE.RingGeometry(0.24, 0.29, 32), new THREE.MeshBasicMaterial({ color: seated ? 0x3f8f5b : 0xd7263d, transparent: true, opacity: 0.9, depthWrite: false }));
+      const ring = new THREE.Mesh(new THREE.RingGeometry(0.26, 0.29, 40), new THREE.MeshBasicMaterial({ color: seated ? 0x3f8f5b : 0xd7263d, transparent: true, opacity: 0.9, depthWrite: false }));
       ring.rotation.x = -Math.PI / 2;
       ring.position.y = 0.012;
       ring.userData.pulse = !seated;
       g.add(ring);
     }
-    if (ghost) g.traverse((m) => { if (m.isMesh) { m.material = m.material.clone(); m.material.transparent = true; m.material.opacity = 0.45; m.castShadow = false; } });
+    if (ghost) g.traverse((m) => { if (m.isMesh) { m.material = Array.isArray(m.material) ? m.material.map((x) => this._ghostMat(x)) : this._ghostMat(m.material); m.castShadow = false; } });
     return g;
+  }
+
+  _ghostMat(mat) {
+    const c = mat.clone();
+    c.transparent = true;
+    c.opacity = 0.45;
+    c.depthWrite = false;
+    return c;
   }
 
   sync(s) {

@@ -34,7 +34,7 @@ games/mrt-rush/
   js/flow.js            Line select, door timer, queue, rotate/place, station summaries, results
   js/board2d.js         SVG carriage (also exports the commuter drawings used in the queue)
   js/board3d.js         Three.js carriage built from Blender templates
-  models/mrt-assets.glb Seat, wall, door, pole, commuter (standing/seated) and luggage templates
+  models/mrt-assets.glb Seat, wall, door, pole, ten unique textured commuters (standing + seated, each fits one grid square) and textured luggage; Draco-compressed
 games/agak-agak/
   index.html            2D build (SVG dial)
   3d/index.html         3D build (Three.js dial on a kopitiam table)
