@@ -7,9 +7,15 @@ function rng(seed) {
   return () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
 }
 
+// Drawn to the container's real proportions (no stretching or cropping), and redrawn when it resizes.
 function drawSkyline(svg) {
   const r = rng(65);
-  const W = 1200, H = 360;
+  const H = 360;
+  const box = svg.getBoundingClientRect();
+  const W = Math.max(640, Math.round((H * (box.width || 1200)) / (box.height || H)));
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMax meet');
+  svg.dataset.w = String(W);
   const facades = ['#F3DCC0', '#F7D9DF', '#CFE7E1', '#F5E6B8', '#E4DDF0', '#FBE3CF'];
   const accents = ['#D7263D', '#1F8A8A', '#F2B134', '#E88EA6', '#6B3E26', '#4E9F3D'];
   let out = '';
@@ -354,5 +360,15 @@ function renderGames(grid) {
   }
 }
 
-drawSkyline(document.getElementById('skyline'));
+const skyline = document.getElementById('skyline');
+drawSkyline(skyline);
+let skyTimer = 0;
+new ResizeObserver(() => {
+  clearTimeout(skyTimer);
+  skyTimer = setTimeout(() => {
+    const box = skyline.getBoundingClientRect();
+    const want = Math.max(640, Math.round((360 * box.width) / (box.height || 360)));
+    if (Math.abs(want - +(skyline.dataset.w || 0)) > 24) { skyline.classList.add('no-anim'); drawSkyline(skyline); }
+  }, 120);
+}).observe(skyline);
 renderGames(document.getElementById('game-grid'));

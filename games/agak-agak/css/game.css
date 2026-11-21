@@ -45,8 +45,8 @@ svg { display: block; }
 }
 @media (min-width: 980px) and (min-aspect-ratio: 4/3) {
   .app { grid-template-columns: minmax(0, 1fr) var(--panel-w); grid-template-rows: auto minmax(0, 1fr); grid-template-areas: 'bar bar' 'stage panel'; }
-  .panel { border-top: 0 !important; border-left: 2px solid var(--ink); border-radius: 0 !important; align-self: stretch; display: flex; align-items: center; }
-  .panel-inner { max-height: 100%; overflow: auto; }
+  .panel { border-top: 0 !important; border-left: 2px solid var(--ink); border-radius: 0 !important; align-self: stretch; display: flex; align-items: safe center; }
+  .panel-inner { max-height: 100%; overflow: auto; padding: 6px 8px 14px; } /* room for button shadows + focus rings */
 }
 
 /* ---------- top bar ---------- */
