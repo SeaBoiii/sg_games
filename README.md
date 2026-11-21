@@ -9,6 +9,7 @@ Party games for the kopitiam table. They are static HTML, CSS and JS, with no bu
 | **Agak Agak** | `games/agak-agak/` (2D) · `games/agak-agak/3d/` (3D) | A Singapore-edition spectrum guessing game. Spin a hidden target, give one clue, and get your team to move the needle as close as possible. Two modes. **Teams** is pass and play on one screen, using about 100 SG Edition cards or a Blank deck where the Psychic says the question and both ends out loud. **Solo** is you against the house: 10 cards with ready-made clues, scored out of 40. Best on a phone held in landscape. |
 
 | **Chope Wars** | `games/chope-wars/` (2D) · `games/chope-wars/3d/` (3D) | Claim hawker-centre tables one tissue packet at a time. Stools are shared between tables; fill a table's 4 stools to claim it (most packets wins, a 2–2 tie goes to the last chope). Fan tables are worth 2 and famous-stall tables 3, and each player can call the cleaner auntie once. 2 players on one screen, or solo against Uncle Lim (CPU, Chill or Kiasu). |
+| **MRT Rush** | `games/mrt-rush/` (2D) · `games/mrt-rush/3d/` (3D) | Solo puzzle-arcade. Pack peak-hour commuters into a carriage before the doors close: people must be able to walk in from the open door, bags and trolleys stay off seats, uncles and mums-to-be need seats, and the doorway must be clear. Three fictional lines (Kaya, Teh, Bandung) with stars and best scores. |
 
 ## Project layout
 
@@ -27,6 +28,13 @@ games/chope-wars/
   js/board2d.js         SVG board
   js/board3d.js         Three.js board built from Blender templates
   models/chope-assets.glb  Table, stool, tissue packet, fan, stall, tent card and tray templates
+games/mrt-rush/
+  index.html, 3d/       2D (SVG) and 3D (Three.js) builds
+  js/engine.js          Carriage grid, commuter shapes, boarding/alighting rules, lines and scoring (no DOM)
+  js/flow.js            Line select, door timer, queue, rotate/place, station summaries, results
+  js/board2d.js         SVG carriage (also exports the commuter drawings used in the queue)
+  js/board3d.js         Three.js carriage built from Blender templates
+  models/mrt-assets.glb Seat, wall, door, pole, commuter (standing/seated) and luggage templates
 games/agak-agak/
   index.html            2D build (SVG dial)
   3d/index.html         3D build (Three.js dial on a kopitiam table)

@@ -78,7 +78,7 @@ function arc(cx, cy, r, a0, a1) {
 
 // Miniatures of each game's real 2D screen, so the hub cards match what you get when you tap Play.
 const FONT = 'Bricolage Grotesque, sans-serif';
-const BLEED = new Set(['dial', 'chope']);
+const BLEED = new Set(['dial', 'chope', 'mrt']);
 
 function agakArt() {
   const CX = 200, CY = 176, R = 123;
@@ -208,9 +208,71 @@ function chopeArt() {
     </svg>`;
 }
 
+function mrtArt() {
+  // miniature of the 2D carriage: Kaya Line, doors open on the platform side, a few riders aboard
+  const INK = '#2A1A12', LINE = '#7FA82E';
+  const CS = 28, X0 = 32, Y0 = 60, COLS = 12, ROWS = 5;
+  const doors = [2, 3, 8, 9], prio = [0, 1, 10, 11];
+  const x = (c) => X0 + c * CS, y = (r) => Y0 + r * CS;
+  let seats = '', hatch = '';
+  for (const r of [0, 4]) for (let c = 0; c < COLS; c++) {
+    if (doors.includes(c)) { hatch += `<rect x="${x(c)}" y="${y(r)}" width="${CS}" height="${CS}" fill="url(#mrt-hatch)" opacity="${r === 4 ? 1 : 0.35}"/>`; continue; }
+    seats += `<rect x="${x(c) + 2}" y="${y(r) + (r === 0 ? 2 : 5)}" width="${CS - 4}" height="${CS - 7}" rx="5" fill="${prio.includes(c) ? '#8E2C48' : LINE}" stroke="${INK}" stroke-width="1.3"/>`;
+  }
+  const person = (cx, cy, shirt, skin, stops, ring = '') => `
+    <g transform="translate(${cx} ${cy})">
+      ${ring ? `<circle r="12.5" fill="none" stroke="${ring}" stroke-width="1.6"/>` : ''}
+      <ellipse cy="2" rx="11" ry="6.5" fill="${shirt}" stroke="${INK}" stroke-width="1.2"/>
+      <circle cy="-1" r="5.2" fill="${skin}" stroke="${INK}" stroke-width="1.2"/>
+      <path d="M-4.8 -2 a4.8 4.8 0 0 1 9.6 0 q-4.8 -2.6 -9.6 0z" fill="${INK}"/>
+      ${stops ? `<g transform="translate(8 -7)"><circle r="5" fill="${stops === 1 ? '#F2B134' : '#FFFCF5'}" stroke="${INK}" stroke-width="1.1"/><text y="2.2" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="6.5" fill="${INK}">${stops}</text></g>` : ''}
+    </g>`;
+  const cc = (c) => x(c) + CS / 2, rr = (r) => y(r) + CS / 2;
+  const trolley = (cx, cy) => `<g transform="translate(${cx} ${cy})"><rect x="-7.5" y="-9" width="15" height="18" rx="3" fill="#B8343D" stroke="${INK}" stroke-width="1.2"/><path d="M-7.5 -3h15M-7.5 3h15M-2.5 -9v18M2.5 -9v18" stroke="#F2D6A0" stroke-width="1" opacity=".85"/></g>`;
+  const bag = (cx, cy) => `<g transform="translate(${cx} ${cy})"><rect x="-6.5" y="-6" width="13" height="12" rx="3.5" fill="#2F3E63" stroke="${INK}" stroke-width="1.2"/></g>`;
+  const pack = (cx, cy) => `<g transform="translate(${cx} ${cy})"><rect x="-7" y="-8.5" width="14" height="17" rx="3.5" fill="#55652F" stroke="${INK}" stroke-width="1.2"/></g>`;
+  let poles = '';
+  for (const c of [1, 5, 7, 11]) for (const r of [2, 3]) poles += `<circle cx="${x(c)}" cy="${y(r)}" r="2.2" fill="#C9CED1" stroke="${INK}" stroke-width="1"/>`;
+  let windows = '';
+  for (const [a, b] of [[0, 2], [4, 8], [10, 12]]) {
+    windows += `<rect x="${x(a) + 4}" y="${Y0 - 9}" width="${(b - a) * CS - 8}" height="5" rx="2" fill="#BFE3EC" stroke="${INK}" stroke-width=".8"/>`;
+    windows += `<rect x="${x(a) + 4}" y="${y(ROWS) + 4}" width="${(b - a) * CS - 8}" height="5" rx="2" fill="#BFE3EC" stroke="${INK}" stroke-width=".8"/>`;
+  }
+  let dots = '';
+  for (let dx = 6; dx < 400; dx += 8) dots += `<circle cx="${dx}" cy="221" r="1.1" fill="#C9A21C"/>`;
+  return `
+    <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <pattern id="mrt-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#E7E2D8"/><rect width="4" height="8" fill="#F2C230" opacity=".6"/></pattern>
+        <pattern id="mrt-floor" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="14" height="14" fill="#D8D4CC"/><circle cx="4" cy="4" r=".8" fill="#C6C1B7"/><circle cx="11" cy="11" r=".8" fill="#C6C1B7"/></pattern>
+        <pattern id="mrt-plat" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="#D9D3C7"/><rect width="19.4" height="19.4" fill="#E4DFD5"/></pattern>
+      </defs>
+      <rect width="400" height="250" fill="#3A3F44"/>
+      ${[0, 1, 2].map((i) => `<rect x="${30 + i * 140}" y="20" width="44" height="3" rx="1.5" fill="#FFE9A8" opacity=".35"/>`).join('')}
+      <rect y="214" width="400" height="36" fill="url(#mrt-plat)"/>
+      <rect y="214" width="400" height="4" fill="#F2C230"/>
+      ${dots}
+      ${person(cc(5) - 8, 236, '#3E6FB0', '#D9A47A')}${person(cc(5) + 14, 240, '#E88EA6', '#F2C9A0')}${person(cc(8) + 6, 237, '#5B6B33', '#B07A4F')}
+      <rect x="10" y="${Y0 - 26}" width="380" height="${ROWS * CS + 52}" rx="22" fill="${LINE}" stroke="${INK}" stroke-width="2"/>
+      <rect x="${X0 - 6}" y="${Y0 - 12}" width="${COLS * CS + 12}" height="${ROWS * CS + 24}" rx="12" fill="#F4F2EE" stroke="${INK}" stroke-width="1.5"/>
+      ${windows}
+      <rect x="${X0}" y="${Y0}" width="${COLS * CS}" height="${ROWS * CS}" fill="url(#mrt-floor)"/>
+      ${hatch}${seats}${poles}
+      ${[2, 8].map((d) => `<rect x="${x(d) - 22}" y="${y(ROWS) + 1}" width="24" height="10" fill="#DADFE2" stroke="${INK}" stroke-width="1"/><rect x="${x(d + 2) - 2}" y="${y(ROWS) + 1}" width="24" height="10" fill="#DADFE2" stroke="${INK}" stroke-width="1"/>`).join('')}
+      ${person(cc(0), rr(0), '#8A6D4B', '#D9A47A', 3, '#3F8F5B')}
+      ${person(cc(11), rr(4), '#E88EA6', '#E8B68F', 2, '#3F8F5B')}
+      ${person(cc(5), rr(0), '#3E6FB0', '#B07A4F', 1)}
+      ${person(cc(6), rr(1), '#C2569B', '#F2C9A0', 4)}${trolley(cc(7), rr(1))}
+      ${person(cc(4), rr(2), '#F2F0E8', '#8D5A3B', 2)}${bag(cc(4), rr(3))}
+      ${person(cc(10), rr(2), '#5B6B33', '#D9A47A', 1)}${pack(cc(10), rr(3))}
+      ${person(cc(1), rr(1), '#3E6FB0', '#E8B68F', 2)}
+    </svg>`;
+}
+
 const ART = {
   dial: agakArt,
   chope: chopeArt,
+  mrt: mrtArt,
   wok: () => `
     <svg viewBox="0 0 400 240" aria-hidden="true">
       <path d="M70 120h260a130 70 0 0 1-260 0z" fill="#2A1A12"/>

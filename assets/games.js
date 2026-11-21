@@ -32,6 +32,21 @@ export const GAMES = [
     ],
     status: 'live',
   },
+  {
+    slug: 'mrt-rush',
+    title: 'MRT Rush',
+    tagline: 'Move in, please',
+    blurb:
+      'Peak hour on a (fictional) MRT line. Pack commuters into the carriage before the doors close, keep the doorway clear, and give the uncles a seat. Three lines, from easy to rush hour.',
+    tags: ['Solo', 'Puzzle', 'Short levels', '3–6 min'],
+    accent: '#7FA82E',
+    art: 'mrt',
+    links: [
+      { label: 'Play', href: 'games/mrt-rush/', primary: true },
+      { label: 'Play in 3D', href: 'games/mrt-rush/3d/', badge: 'New' },
+    ],
+    status: 'live',
+  },
   // The two "coming soon" cards below are permanent: keep them last, after every real game.
   {
     slug: 'coming-soon-1',
