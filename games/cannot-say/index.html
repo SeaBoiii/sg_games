@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Cannot Say! · SG Games</title>
+  <meta name="description" content="Cannot Say!: the Singapore word party game. Describe hawker food, places and Singlish to your team without saying the banned words. 2 to 4 teams on one phone." />
+  <meta name="theme-color" content="#FFFCF5" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/cannot.css" />
+</head>
+<body>
+  <div class="app" id="app"><noscript><p style="padding:24px">Cannot Say! needs JavaScript to run.</p></noscript></div>
+  <script type="module">
+    import { startFlow } from './js/flow.js';
+    import { Board2D } from './js/board2d.js';
+    startFlow({
+      root: document.getElementById('app'),
+      createBoard: (stage) => new Board2D(stage),
+      hubHref: '../../',
+      altHref: '3d/',
+      altLabel: 'Switch to 3D',
+    });
+  </script>
+</body>
+</html>

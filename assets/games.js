@@ -92,6 +92,21 @@ export const GAMES = [
     ],
     status: 'live',
   },
+  {
+    slug: 'cannot-say',
+    title: 'Cannot Say!',
+    tagline: 'Don\'t say lah!',
+    blurb:
+      'Describe chicken rice, the void deck or "shiok" to your team before the timer runs out, without saying any of the banned words. 174 Singapore cards.',
+    tags: ['2–4 teams', 'Party', 'Wordplay', '15 min'],
+    accent: '#E8590C',
+    art: 'say',
+    links: [
+      { label: 'Play', href: 'games/cannot-say/', primary: true },
+      { label: 'Play in 3D', href: 'games/cannot-say/3d/', badge: 'New' },
+    ],
+    status: 'live',
+  },
   // The two "coming soon" cards below are permanent: keep them last, after every real game.
   {
     slug: 'coming-soon-1',

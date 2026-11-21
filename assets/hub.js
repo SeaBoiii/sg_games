@@ -3,6 +3,8 @@ import { PATTERN_DEFS as KM_DEFS, customerSVG, cupSVG } from '../games/kopi-mast
 import { goodsSVG } from '../games/pasar-malam/js/art.js';
 import { holeSVG, cupSVG as golfCupSVG, ballSVG } from '../games/marina-golf/js/art.js';
 import { HOLES as GOLF_HOLES } from '../games/marina-golf/js/engine.js';
+import { studioSVG, timerSVG, cardFrontSVG, TIMER_R } from '../games/cannot-say/js/art.js';
+import { CARDS as SAY_CARDS } from '../games/cannot-say/js/cards.js';
 
 
 /* ---------- Heartland skyline (HDB blocks) ---------- */
@@ -88,7 +90,7 @@ function arc(cx, cy, r, a0, a1) {
 
 // Miniatures of each game's real 2D screen, so the hub cards match what you get when you tap Play.
 const FONT = 'Bricolage Grotesque, sans-serif';
-const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi', 'pasar', 'golf']);
+const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi', 'pasar', 'golf', 'say']);
 
 function agakArt() {
   const CX = 200, CY = 176, R = 123;
@@ -374,6 +376,33 @@ function golfArt() {
     </svg>`;
 }
 
+function sayArt() {
+  // miniature of the 2D studio mid-turn: the "Chope" card, 23 seconds left, the scoreboard
+  const card = SAY_CARDS.find((c) => c.word === 'Chope');
+  const C = 2 * Math.PI * TIMER_R;
+  const timer = timerSVG()
+    .replace('stroke-dashoffset="0"', `stroke-dashoffset="${(C * (1 - 23 / 60)).toFixed(1)}"`)
+    .replace('stroke="#2F9E5B"', 'stroke="#F2B134"')
+    .replace('>60<', '>23<');
+  const teams = [['Team Kiasu', 7, '#E8590C', true], ['Team Shiok', 5, '#2D6FD1', false]];
+  const rows = teams.map(([n, sc, col, on], i) => `<g transform="translate(0 ${-39 + i * 78})">
+      <rect x="-126" y="-33" width="252" height="66" rx="14" fill="${on ? col : '#FFFCF5'}" stroke="#20142E" stroke-width="4"/>
+      <rect x="-126" y="-33" width="16" height="66" rx="6" fill="${col}"/>
+      <text x="-100" y="8" font-family="${FONT}" font-weight="800" font-size="22" fill="${on ? '#fff' : '#20142E'}">${n}</text>
+      <rect x="54" y="-22" width="60" height="44" rx="12" fill="${on ? '#fff' : '#20142E'}"/>
+      <text x="84" y="11" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="30" fill="${on ? col : '#fff'}">${sc}</text></g>`).join('');
+  return `
+    <svg viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      ${studioSVG('hubsay-')}
+      <g transform="translate(150 330)">${timer}</g>
+      <g transform="translate(850 330)">${rows}</g>
+      <g transform="translate(500 350) rotate(-2)">
+        ${[3, 2, 1].map((k) => `<rect x="${-180 + k * 5}" y="${-220 + k * 6}" width="360" height="440" rx="24" fill="#FFFCF5" stroke="#20142E" stroke-width="4" opacity="${0.5 + k * 0.1}"/>`).join('')}
+        ${cardFrontSVG(card)}
+      </g>
+    </svg>`;
+}
+
 const ART = {
   dial: agakArt,
   chope: chopeArt,
@@ -381,6 +410,7 @@ const ART = {
   kopi: kopiArt,
   pasar: pasarArt,
   golf: golfArt,
+  say: sayArt,
   wok: () => `
     <svg viewBox="0 0 400 240" aria-hidden="true">
       <path d="M70 120h260a130 70 0 0 1-260 0z" fill="#2A1A12"/>

@@ -13,6 +13,7 @@ Party games for the kopitiam table. They are static HTML, CSS and JS, with no bu
 | **Kopi Master** | `games/kopi-master/` (2D) · `games/kopi-master/3d/` (3D) | Solo speed game at a kopitiam drinks stall. Customers order in real lingo (O, C, siew dai, ka dai, kosong, peng, gau, po, tapau, teh tarik, yuan yang, Milo Dinosaur); tap the ingredients into the cup and serve before they lose patience. Breakfast, Lunch and Supper shifts plus Endless, with a lingo cheat sheet. |
 | **Pasar Malam Haggle** | `games/pasar-malam/` (2D) · `games/pasar-malam/3d/` (3D) | Bargain down a night market with a shopping list and a budget. Every stallholder has a secret lowest price and a patience meter: make offers, take their price, or walk away and hope they call you back. Five personalities, three nights, solo or 2 players taking turns at each stall. |
 | **Marina Mini Golf** | `games/marina-golf/` (2D) · `games/marina-golf/3d/` (3D) | Nine holes of mini golf around Singapore: Void Deck, Merlion Park, Esplanade, Lau Pa Sat, Supertree Grove, an MRT crossing, Marina Bay Sands, the Jewel Rain Vortex and the Flyer. Drag back to putt. Water, sand, slopes, bouncy domes, a moving train and a rotating wheel. Solo or 2–4 players passing the phone. |
+| **Cannot Say!** | `games/cannot-say/` (2D) · `games/cannot-say/3d/` (3D) | Team word party game. The describer gets your team to say the word on the card (hawker food, places, Singlish, SG life, getting around) without saying any of its five banned words. Got it, skip or buzz against the clock, then fix mistakes before banking the points. 2–4 teams passing one phone. |
 
 ## Project layout
 
@@ -62,6 +63,15 @@ games/marina-golf/
   js/board2d.js         SVG board
   js/board3d.js         Three.js course built from the same hole data; overview and chase cameras
   models/golf-assets.glb Merlion, Supertree, durian domes, MRT train, MBS towers + SkyPark, Flyer gate, hawker set, scenery, SG cast
+games/cannot-say/
+  index.html, 3d/       2D (SVG) and 3D (Three.js) builds
+  js/cards.js           The deck: 174 cards in five categories, five banned words each
+  js/engine.js          Teams, rounds, timer, got/skip/buzz, review corrections, scoring (no DOM)
+  js/art.js             SVG studio, card faces and stopwatch
+  js/flow.js            Setup and options, pass-the-phone turns, pause, review, final scores
+  js/board2d.js         SVG game-show studio
+  js/board3d.js         Three.js studio: a 3D card that flips and flies, podium score screens, buzzer
+  models/studio-assets.glb Stage, LED backdrop and big screen, podiums, buzzer, stopwatch, spotlights, trophy, SG cast
 games/agak-agak/
   index.html            2D build (SVG dial)
   3d/index.html         3D build (Three.js dial on a kopitiam table)
