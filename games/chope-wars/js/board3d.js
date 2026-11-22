@@ -3,6 +3,7 @@
 // are templates in a Blender-made GLB; this file clones and arranges them.
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import * as E from './engine.js';
 import { tween, ease, wait, reducedMotion } from '../../../assets/lib/fx.js';
@@ -16,6 +17,7 @@ const FONT = '"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif';
 const STALLS = [['CHICKEN RICE', '#D7263D'], ['KOPI · TEH', '#1F8A8A'], ['CHAR KWAY TEOW', '#F2B134'], ['LAKSA', '#2F6B4F'], ['SATAY', '#E0457B']];
 
 const D2R = Math.PI / 180;
+const DRACO_PATH = 'https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/libs/draco/gltf/';
 function canvasTex(cv, gltf = true) {
   const t = new THREE.CanvasTexture(cv);
   t.colorSpace = THREE.SRGBColorSpace;
@@ -142,7 +144,8 @@ export class Board3D {
   }
 
   async _load(url) {
-    const gltf = await new GLTFLoader().loadAsync(url, (e) => {
+    const draco = new DRACOLoader().setDecoderPath(DRACO_PATH);
+    const gltf = await new GLTFLoader().setDRACOLoader(draco).loadAsync(url, (e) => {
       if (e.total) this.loadingEl.querySelector('.pct').textContent = `${Math.round((e.loaded / e.total) * 100)}%`;
     });
     await (document.fonts ? document.fonts.ready : null);

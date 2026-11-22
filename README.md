@@ -117,6 +117,31 @@ The 2D and 3D builds share `engine.js` and `flow.js`. Each build only supplies a
 
 The 3D scene (dial housing, wheel, shutter, needle, card plaques, marble table, plastic stools, kopi and kaya toast) was modelled procedurally in Blender. Three.js animates parts by node name (`Wheel`, `Shutter`, `Needle`, `CardL`, `CardR`, `SpinKnob`, `TableTop`). If you rename them in Blender, update `js/dial3d.js` too.
 
+## 3D asset tools
+
+`tools/blender/` holds the Blender scripts behind the 3D builds. Run them through the Blender MCP or Blender's Python console; they are not deployed.
+
+```
+tools/blender/
+  sg_cast.py        The shared Singapore cast (10 characters, standing and sitting, ~14–16k triangles each):
+                    rounded torsos, fingered hands, shaped shoes, hair, faces, collars, pockets, ties, bags.
+                    Builds them in mrt-assets.blend, the cast's home file.
+  propagate_cast.py Copies the current cast from mrt-assets.blend into another game's .blend (same Char_* names).
+                    Kopi Master's customers are Cust_<key> roots holding a copy of Char_<key>_Stand_Mesh; swap those by hand.
+  detail_pass.py    Generic detail pass: rebuilds low-segment cylinders, spheres, tori and lathes, smooths bevels,
+                    subdivides plain smooth meshes, then re-exports the game's GLB (Draco) and saves the .blend.
+                    It skips characters and anything tagged as already detailed.
+  run_game.py       One call per game: new cast + detail pass + export.
+  chope_detail.py   Hand-modelled detail for Chope Wars (stalls, stools, packets, fan, food tray).
+  agak_detail.py    Hand-modelled detail for Agak Agak (kaya toast, teaspoon, tissue pack, stools).
+  mrt_detail.py     Hand-modelled detail for the MRT Rush carriage (seats, walls, doors, poles).
+  kid_detail.py     Chapteh Kick's animated player rig rebuilt in the cast's style (same joints and materials).
+  merge.py          Merges a template's parts by material to keep draw calls low.
+  lab_render.py     Look-dev renders of any objects in a private scene (removed before saving).
+```
+
+Open a game's `.blend` in its own call first (`detail_pass.open_game(...)`), then run the script in the next call. Every GLB keeps the node names its `board3d.js` looks up.
+
 ## Run locally
 
 ES modules need a web server (opening the file directly won't work):

@@ -2,12 +2,14 @@
 // The kopitiam table, dial housing, wheel, shutter and needle come from a Blender-made GLB.
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { BAND } from './engine.js';
 import { tween, ease, reducedMotion } from '../../../assets/lib/fx.js';
 import { sfx, buzz } from '../../../assets/lib/sfx.js';
 
 const D2R = Math.PI / 180;
+const DRACO_PATH = 'https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/libs/draco/gltf/';
 const mod = (n, m) => ((n % m) + m) % m;
 const loadImage = (src) => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
 const WALL_R = 3.45;
@@ -347,7 +349,7 @@ export class Dial3D {
 
   async _load(modelUrl, tileHref) {
     const [gltf, tile] = await Promise.all([
-      new GLTFLoader().loadAsync(modelUrl, (e) => {
+      new GLTFLoader().setDRACOLoader(new DRACOLoader().setDecoderPath(DRACO_PATH)).loadAsync(modelUrl, (e) => {
         if (e.total) this.loadingEl.querySelector('.pct').textContent = `${Math.round((e.loaded / e.total) * 100)}%`;
       }),
       loadImage(tileHref).catch(() => null),
