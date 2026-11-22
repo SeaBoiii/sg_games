@@ -96,7 +96,7 @@ function arc(cx, cy, r, a0, a1) {
 
 // Miniatures of each game's real 2D screen, so the hub cards match what you get when you tap Play.
 const FONT = 'Bricolage Grotesque, sans-serif';
-const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi', 'pasar', 'golf', 'say', 'chapteh', 'quiz', 'makan', 'bigtwo']);
+const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi', 'pasar', 'golf', 'say', 'chapteh', 'quiz', 'makan', 'bigtwo', 'station']);
 
 function agakArt() {
   const CX = 200, CY = 176, R = 123;
@@ -496,6 +496,67 @@ function bigtwoArt() {
     </svg>`;
 }
 
+function stationArt() {
+  // miniature of the 2D side view: a Kaya Line train glides into the platform and stops on the mark
+  const INK = '#2A1A12', LINE = '#7FA82E';
+  const PASTEL = ['#E6DCCB', '#D6E2DE', '#E4D3DA', '#D3DCE8', '#EADFC0'];
+  let blocks = '';
+  for (let i = 0; i < 9; i++) {
+    const x = i * 46 - 10, w = 30 + (i * 13) % 14, h = 60 + ((i * 37) % 50);
+    blocks += `<rect x="${x}" y="${150 - h}" width="${w}" height="${h + 20}" fill="${PASTEL[i % PASTEL.length]}"/><rect x="${x + w * 0.42}" y="${150 - h}" width="${w * 0.16}" height="${h + 20}" fill="${INK}" opacity=".1"/>`;
+    for (let fy = 150 - h + 6; fy < 146; fy += 8) for (let fx = x + 4; fx < x + w - 4; fx += 7) blocks += `<rect x="${fx}" y="${fy}" width="3.4" height="3" fill="#fff" opacity=".45"/>`;
+  }
+  const car = (x0, front) => {
+    let doors = '';
+    for (const d of [10, 26, 42, 58]) doors += `<rect x="${x0 + 74 - d - 3}" y="132" width="7" height="27" fill="#D7DCE0" stroke="#6E7A82" stroke-width=".8"/>`;
+    const body = front
+      ? `M${x0} 165V132q0-4 4-4h60q8 1 10 14v23z`
+      : `M${x0} 165V132q0-4 4-4h66q4 0 4 4v33z`;
+    return `<g>
+      <path d="${body}" fill="#E9EDF0" stroke="${INK}" stroke-width="1.6"/>
+      <rect x="${x0 + 3}" y="135" width="${front ? 56 : 68}" height="10" fill="#33414A"/>
+      <rect x="${x0}" y="151" width="${front ? 73 : 74}" height="3.4" fill="${LINE}"/>
+      ${doors}
+      ${front ? `<path d="M${x0 + 62} 135q8 1 10 12h-10z" fill="#26323A"/><circle cx="${x0 + 72.5}" cy="160" r="1.8" fill="#FFF6C9"/>` : ''}
+      ${[x0 + 12, x0 + 62].map((b) => `<rect x="${b - 9}" y="165" width="18" height="4" fill="#3A3F44"/><circle cx="${b - 5}" cy="170" r="3" fill="#23272B"/><circle cx="${b + 5}" cy="170" r="3" fill="#23272B"/>`).join('')}
+    </g>`;
+  };
+  let psd = '';
+  for (let x = 150; x < 400; x += 22) psd += `<rect x="${x}" y="146" width="18" height="21" fill="#CDE8EE" fill-opacity=".35" stroke="#7D8A92" stroke-width="1"/>`;
+  let pillars = '';
+  for (const x of [40, 180, 320]) pillars += `<rect x="${x - 7}" y="185" width="14" height="70" fill="#B9B2A4"/><rect x="${x - 11}" y="185" width="22" height="4" fill="#A39C8E"/>`;
+  return `
+    <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs><linearGradient id="ns-hub-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FCBE6"/><stop offset="1" stop-color="#E8F5F6"/></linearGradient></defs>
+      <rect width="400" height="250" fill="url(#ns-hub-sky)"/>
+      <circle cx="338" cy="34" r="16" fill="#FFF3C4"/>
+      ${blocks}
+      <rect y="228" width="400" height="22" fill="#8DB46A"/>
+      ${pillars}
+      <rect x="150" y="98" width="260" height="72" fill="#EDE7DA"/>
+      <rect x="150" y="116" width="260" height="2.5" fill="${LINE}"/>
+      <rect x="168" y="122" width="34" height="15" fill="#F2B134"/><rect x="290" y="122" width="34" height="15" fill="#2D6FD1"/>
+      <g transform="translate(212 103)"><rect width="72" height="11" fill="#FFFDF7" stroke="${INK}" stroke-width=".8"/><rect width="6" height="11" fill="${LINE}"/>
+        <text x="40" y="8.2" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="7.4" fill="${INK}">Kampong Kaya</text></g>
+      <rect x="0" y="170" width="400" height="16" fill="#D6CFC1"/>
+      <rect x="0" y="170" width="400" height="3" fill="#5C5850"/>
+      <g class="ns-train">${car(-82, false)}${car(-6, false)}${car(70, false)}${car(146, false)}${car(222, true)}</g>
+      ${psd}
+      <rect x="146" y="167" width="260" height="9" fill="#D9D3C7"/><rect x="146" y="167" width="260" height="2" fill="#F2C230"/>
+      <g transform="translate(304 132)"><rect x="-1" y="10" width="2" height="25" fill="#5B6670"/><rect x="-11" y="-2" width="22" height="13" rx="2" fill="#FFFDF7" stroke="#D7263D" stroke-width="2"/>
+        <text y="7.6" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="7" fill="#D7263D">STOP</text></g>
+      <rect x="140" y="90" width="270" height="7" fill="#5E6A73"/>
+      <g transform="translate(12 10)"><rect width="250" height="20" rx="7" fill="#FFFCF5" fill-opacity=".94" stroke="${INK}" stroke-width="1.5"/>
+        <text x="8" y="13.5" font-family="${FONT}" font-weight="800" font-size="8.5" fill="${INK}">Kopi Hill</text>
+        <rect x="52" y="7" width="130" height="6" rx="3" fill="#E8E1D4" stroke="${INK}" stroke-width="1"/><rect x="92" y="7" width="30" height="6" fill="#F2B134"/>
+        <circle class="ns-dot" cx="180" cy="10" r="4.5" fill="${LINE}" stroke="${INK}" stroke-width="1.3"/>
+        <text x="190" y="13.5" font-family="${FONT}" font-weight="800" font-size="8.5" fill="${INK}">Kampong Kaya</text></g>
+      <g transform="translate(330 40)"><rect width="60" height="26" rx="7" fill="#14181C" fill-opacity=".86" stroke="${INK}" stroke-width="1.5"/>
+        <text x="8" y="18" font-family="${FONT}" font-weight="800" font-size="14" fill="#fff">0</text><text x="20" y="18" font-family="${FONT}" font-weight="700" font-size="6.5" fill="#fff" opacity=".7">km/h</text>
+        <circle cx="47" cy="13" r="8.5" fill="#fff" stroke="#D7263D" stroke-width="2.4"/><text x="47" y="16" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="7.5" fill="${INK}">70</text></g>
+    </svg>`;
+}
+
 const ART = {
   dial: agakArt,
   chope: chopeArt,
@@ -508,6 +569,7 @@ const ART = {
   quiz: quizArt,
   makan: makanArt,
   bigtwo: bigtwoArt,
+  station: stationArt,
   wok: () => `
     <svg viewBox="0 0 400 240" aria-hidden="true">
       <path d="M70 120h260a130 70 0 0 1-260 0z" fill="#2A1A12"/>

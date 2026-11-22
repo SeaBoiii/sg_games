@@ -167,6 +167,21 @@ export const GAMES = [
     ],
     status: 'live',
   },
+  {
+    slug: 'next-station',
+    title: 'Next Station',
+    tagline: 'Stop right at the doors!',
+    blurb:
+      'Be the MRT train captain. Work the master controller, keep under the speed limits and keep standing passengers on their feet, then stop right on the mark at every platform.',
+    tags: ['Solo', '2–4 players', 'Driving', '3–5 min'],
+    accent: '#2D6FD1',
+    art: 'station',
+    links: [
+      { label: 'Play', href: 'games/next-station/', primary: true },
+      { label: 'Play in 3D', href: 'games/next-station/3d/', badge: 'New' },
+    ],
+    status: 'live',
+  },
   // The two "coming soon" cards below are permanent: keep them last, after every real game.
   {
     slug: 'coming-soon-1',

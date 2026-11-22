@@ -17,6 +17,7 @@ Party games for the kopitiam table. They are static HTML, CSS and JS, with no bu
 | **Chapteh Kick** | `games/chapteh-kick/` (2D) · `games/chapteh-kick/3d/` (3D) | Arcade timing game based on the kampung shuttlecock. The chapteh falls to your left foot, knee or right foot; kick the matching zone as the ring closes for Perfects, combos and golden bonuses. 3 chapteh per run, and it speeds up. Rally mode puts two players on one phone (left half vs right half); Turns mode passes it round 2–4 players. |
 | **Kiasu Quiz** | `games/kiasu-quiz/` (2D) · `games/kiasu-quiz/3d/` (3D) | Singapore trivia game show with 128 questions on history, places, makan, Singlish and SG life, each with a "Did you know?" fact. Solo: beat the clock with three lifelines (Kiasu 50:50, Ask Auntie, Chope next). Buzzer battle: 2–4 players buzz in on one screen; wrong answers lose points and let others steal. |
 | **Makan Trail** | `games/makan-trail/` (2D) · `games/makan-trail/3d/` (3D) | Board game race round Singapore for 2–4 players (any seat can be a CPU). Roll and walk a 32-square loop, stop early at hawker centres to buy the 4 dishes on your makan list, collect payday at home, dodge rain, ERP and kopitiam-talk surprises, ride the MRT, and get home first. |
+| **Next Station** | `games/next-station/` (2D) · `games/next-station/3d/` (3D) | Train-driving game on three fictional MRT lines (Kaya, Teh, Bandung). Work an 8-notch master controller, keep under the speed limits (the ATP brakes for you if you don't), keep standing passengers comfortable, and stop with the front of the train right on the STOP mark. Each station scores the stop, the timetable and comfort; Bandung runs at night in the rain. 2D side view with a precision stop gauge; 3D from the driver's cab. Solo or 2–4 drivers taking turns. |
 | **Big Two** | `games/big-two/` (2D) · `games/big-two/3d/` (3D) | The Chinese New Year card game at Ah Ma's table. Play singles, pairs, triples and five-card hands (straight, flush, full house, four of a kind, straight flush), beat what's on the table or pass, and be first to empty your 13 cards. Losers pay the winner mandarin oranges per card left. Solo against three CPU relatives (Chill or Kiasu), or pass the phone with up to 4 players; 1, 4 or 8 deals. |
 
 ## Project layout
@@ -101,6 +102,15 @@ games/makan-trail/
   js/board2d.js         SVG board with hopping tokens and player cards
   js/board3d.js         Three.js kopitiam table: the board as a texture, Blender props, tingkats and a real die
   models/makan-assets.glb Tingkat token, die, kopitiam table, mini hawker/HDB/MRT/ERP/ang bao/rain/card props, SG cast
+games/next-station/
+  index.html, 3d/       2D (canvas) and 3D (Three.js) builds
+  js/engine.js          Lines, notches, jerk-limited train physics, speed limits and ATP, stopping, timetable and scores (no DOM)
+  js/flow.js            Line select, the master controller (drag, tap, keys), live readouts, station cards, results, attract mode
+  js/hud.js             Overlay shared by both views: line strip, speedometer, precision stop gauge, toasts
+  js/audio.js           Motor whine that steps up with speed, wheel rumble, door chimes, ATP alarm
+  js/board2d.js         Canvas side view: parallax HDB skyline, viaducts, tunnels, stations with screen doors, rain
+  js/board3d.js         Three.js cab view: the line built along the track, live cab screens, tunnel and night lighting
+  models/station-assets.glb Cab, platform module, signs, viaduct span, tunnel ring, sleeper, fence, bench, HDB blocks, trees, SG cast
 games/big-two/
   index.html, 3d/       2D (SVG) and 3D (Three.js) builds
   js/engine.js          Cards, combination rules, turns, passing, orange scoring and the CPU relatives (no DOM)
@@ -145,6 +155,8 @@ tools/blender/
   agak_detail.py    Hand-modelled detail for Agak Agak (kaya toast, teaspoon, tissue pack, stools).
   mrt_detail.py     Hand-modelled detail for the MRT Rush carriage (seats, walls, doors, poles).
   kid_detail.py     Chapteh Kick's animated player rig rebuilt in the cast's style (same joints and materials).
+  station_build.py  Builds Next Station's source .blend (cab, platform, signs, viaduct, tunnel, sleeper, fence,
+                    bench), borrows HDB blocks and trees from Chapteh Kick and the standing cast, and exports the GLB.
   bigtwo_build.py   Builds Big Two's source .blend from scratch (table, chairs, oranges, tart jar, tea set, lanterns,
                     sideboard, window, plaque), appends the seated cast and exports the GLB.
   merge.py          Merges a template's parts by material to keep draw calls low.
