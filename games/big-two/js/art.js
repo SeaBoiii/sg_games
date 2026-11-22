@@ -111,14 +111,14 @@ export const SEAT = [
 export const PILE = { x: 500, y: 386 };
 
 function lantern(x, y, s = 1) {
-  return `<g transform="translate(${x} ${y}) scale(${s})">
+  return `<g transform="translate(${x} ${y}) scale(${s})"><g class="sway" style="animation-delay:${x > 500 ? -1.7 : 0}s">
     <path d="M0 -60V-30" stroke="${INK}" stroke-width="3"/>
     <rect x="-14" y="-34" width="28" height="9" rx="2" fill="${GOLD}" stroke="${INK}" stroke-width="2.5"/>
     <ellipse cx="0" cy="0" rx="40" ry="30" fill="${RED}" stroke="${INK}" stroke-width="3"/>
     <path d="M-26 -22Q-36 0 -26 22M-10 -29Q-16 0 -10 29M10 -29Q16 0 10 29M26 -22Q36 0 26 22" fill="none" stroke="#A31027" stroke-width="2.5"/>
     <rect x="-14" y="25" width="28" height="9" rx="2" fill="${GOLD}" stroke="${INK}" stroke-width="2.5"/>
     <path d="M-8 34v26M0 34v30M8 34v26" stroke="${GOLD}" stroke-width="3" stroke-linecap="round"/>
-  </g>`;
+  </g></g>`;
 }
 
 function plaque(x, y, s = 1) {

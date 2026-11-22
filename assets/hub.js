@@ -270,13 +270,13 @@ function mrtArt() {
       <rect y="214" width="400" height="36" fill="url(#mrt-plat)"/>
       <rect y="214" width="400" height="4" fill="#F2C230"/>
       ${dots}
-      ${person(cc(5) - 8, 236, '#3E6FB0', '#D9A47A')}${person(cc(5) + 14, 240, '#E88EA6', '#F2C9A0')}${person(cc(8) + 6, 237, '#5B6B33', '#B07A4F')}
+      <g class="bob" style="--bob:-3px">${person(cc(5) - 8, 236, '#3E6FB0', '#D9A47A')}</g><g class="bob" style="--bob:-3px;animation-delay:-1s">${person(cc(5) + 14, 240, '#E88EA6', '#F2C9A0')}</g><g class="bob" style="--bob:-3px;animation-delay:-2s">${person(cc(8) + 6, 237, '#5B6B33', '#B07A4F')}</g>
       <rect x="10" y="${Y0 - 26}" width="380" height="${ROWS * CS + 52}" rx="22" fill="${LINE}" stroke="${INK}" stroke-width="2"/>
       <rect x="${X0 - 6}" y="${Y0 - 12}" width="${COLS * CS + 12}" height="${ROWS * CS + 24}" rx="12" fill="#F4F2EE" stroke="${INK}" stroke-width="1.5"/>
       ${windows}
       <rect x="${X0}" y="${Y0}" width="${COLS * CS}" height="${ROWS * CS}" fill="url(#mrt-floor)"/>
       ${hatch}${seats}${poles}
-      ${[2, 8].map((d) => `<rect x="${x(d) - 22}" y="${y(ROWS) + 1}" width="24" height="10" fill="#DADFE2" stroke="${INK}" stroke-width="1"/><rect x="${x(d + 2) - 2}" y="${y(ROWS) + 1}" width="24" height="10" fill="#DADFE2" stroke="${INK}" stroke-width="1"/>`).join('')}
+      ${[2, 8].map((d) => `<rect class="door-l" x="${x(d) - 22}" y="${y(ROWS) + 1}" width="24" height="10" fill="#DADFE2" stroke="${INK}" stroke-width="1"/><rect class="door-r" x="${x(d + 2) - 2}" y="${y(ROWS) + 1}" width="24" height="10" fill="#DADFE2" stroke="${INK}" stroke-width="1"/>`).join('')}
       ${person(cc(0), rr(0), '#8A6D4B', '#D9A47A', 3, '#3F8F5B')}
       ${person(cc(11), rr(4), '#E88EA6', '#E8B68F', 2, '#3F8F5B')}
       ${person(cc(5), rr(0), '#3E6FB0', '#B07A4F', 1)}
@@ -292,7 +292,7 @@ function kopiArt() {
   const INK = '#2A1A12';
   let tiles = '';
   for (let x = 0; x < 400; x += 20) tiles += `<rect x="${x}" y="96" width="20" height="20" fill="${(x / 20) % 2 ? '#2F6B4F' : '#E8EFE6'}"/>`;
-  const fan = (x) => `<g transform="translate(${x} 14)"><rect x="-1.5" y="-14" width="3" height="10" fill="#C9CED1"/><g class="fan-blades" style="transform-origin:${x}px 14px">${[0, 120, 240].map((a) => `<ellipse rx="34" ry="4.5" transform="rotate(${a})" fill="#F4F1EA" stroke="${INK}" stroke-width="1.2"/>`).join('')}</g><circle r="5" fill="#E8E2D6" stroke="${INK}" stroke-width="1.2"/></g>`;
+  const fan = (x) => `<g transform="translate(${x} 14)"><rect x="-1.5" y="-14" width="3" height="10" fill="#C9CED1"/><g class="fan-blades" style="transform-origin:0px 0px">${[0, 120, 240].map((a) => `<ellipse rx="34" ry="4.5" transform="rotate(${a})" fill="#F4F1EA" stroke="${INK}" stroke-width="1.2"/>`).join('')}</g><circle r="5" fill="#E8E2D6" stroke="${INK}" stroke-width="1.2"/></g>`;
   const cup = { kopi: 1, teh: 0, milo: 0, condensed: 0, evaporated: 1, sugar: 1, ice: 1, water: 0, tarik: 0, bag: 0 };
   return `
     <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -305,15 +305,15 @@ function kopiArt() {
       <rect y="116" width="400" height="80" fill="#E9DCC5"/>
       ${fan(70)}${fan(330)}
       <g opacity=".5"><ellipse cx="330" cy="150" rx="40" ry="10" fill="#F1EDE6" stroke="${INK}" stroke-width="1.5"/><rect x="327" y="150" width="6" height="36" fill="#9AA4A8"/></g>
-      <g transform="translate(140 140) scale(.5)">${customerSVG('aunty', 'happy')}</g>
-      <g transform="translate(140 0)">
+      <g transform="translate(140 140) scale(.5)"><g class="bob" style="--bob:-6px;animation-delay:-.8s">${customerSVG('aunty', 'happy')}</g></g>
+      <g transform="translate(140 0)"><g class="bob" style="--bob:-3px">
         <rect x="-82" y="24" width="164" height="50" rx="12" fill="#FFFCF5" stroke="#1F8A8A" stroke-width="4"/>
         <path d="M-8 73l8 12 8 -12z" fill="#FFFCF5" stroke="${INK}" stroke-width="2"/>
         <text y="46" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="15" fill="${INK}">Kopi C siew dai</text>
         <text y="64" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="15" fill="${INK}">peng</text>
         <rect x="-32" y="14" width="64" height="16" rx="8" fill="#1F8A8A" stroke="${INK}" stroke-width="1.5"/>
         <text y="26" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="8.5" letter-spacing="1" fill="#fff">SERVING</text>
-      </g>
+      </g></g>
       <rect y="190" width="400" height="60" fill="url(#km-hub-top)"/>
       <rect y="186" width="400" height="7" fill="#9AA4A8" stroke="${INK}" stroke-width="1.5"/>
       <rect y="236" width="400" height="14" fill="#6B3E26"/>
@@ -326,7 +326,7 @@ function pasarArt() {
   const INK = '#2A1A12';
   let bulbs = '', stars = '';
   const cols = ['#FFD877', '#FF9FBF', '#9FD3FF', '#B6F2A0'];
-  for (let i = 0; i < 14; i++) { const x = 10 + i * 29, y = 18 + Math.sin(i * 0.6) * 6; bulbs += `<circle cx="${x}" cy="${y + 4}" r="7" fill="${cols[i % 4]}" opacity=".3"/><ellipse cx="${x}" cy="${y + 4}" rx="3" ry="4" fill="${cols[i % 4]}"/>`; }
+  for (let i = 0; i < 14; i++) { const x = 10 + i * 29, y = 18 + Math.sin(i * 0.6) * 6; bulbs += `<circle class="twinkle" style="animation-delay:${(-(i * 0.37) % 1.6).toFixed(2)}s" cx="${x}" cy="${y + 4}" r="7" fill="${cols[i % 4]}" opacity=".3"/><ellipse cx="${x}" cy="${y + 4}" rx="3" ry="4" fill="${cols[i % 4]}"/>`; }
   for (let i = 0; i < 20; i++) stars += `<circle cx="${(i * 97) % 400}" cy="${(i * 29) % 50}" r="1" fill="#fff" opacity=".5"/>`;
   const wire = Array.from({ length: 14 }, (_, i) => `${10 + i * 29} ${18 + Math.sin(i * 0.6) * 6}`).join(' L');
   let canopy = '';
@@ -346,12 +346,12 @@ function pasarArt() {
       <g stroke="${INK}" stroke-width="2">${canopy}</g>${scal}
       <rect x="122" y="51" width="156" height="22" rx="5" fill="#1A1512" stroke="#FFD877" stroke-width="1.5"/>
       <text x="200" y="66" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="10" letter-spacing=".5" fill="#FFD877">UNCLE SENG'S STALL</text>
-      <g transform="translate(262 146) scale(.38)">${customerSVG('uncle', 'happy')}</g>
-      <g transform="translate(300 100)">
+      <g transform="translate(262 146) scale(.38)"><g class="bob" style="--bob:-8px;animation-delay:-1.2s">${customerSVG('uncle', 'happy')}</g></g>
+      <g transform="translate(300 100)"><g class="bob" style="--bob:-3px">
         <rect x="-52" y="-14" width="104" height="30" rx="9" fill="#FFFCF5" stroke="${INK}" stroke-width="2"/>
         <path d="M-30 15 l-10 12 18 -12z" fill="#FFFCF5" stroke="${INK}" stroke-width="2"/>
         <text y="6" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="11" fill="${INK}">Okay lah, $15.50!</text>
-      </g>
+      </g></g>
       <rect x="66" y="186" width="268" height="70" fill="url(#pm-hub-cloth)" stroke="${INK}" stroke-width="2"/>
       <rect x="66" y="182" width="268" height="7" rx="2" fill="#8E6A3A" stroke="${INK}" stroke-width="1.5"/>
       <g transform="translate(148 164) scale(.5)">${goodsSVG('basket')}</g>
@@ -374,9 +374,10 @@ function golfArt() {
     <svg viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       ${under}
       ${golfCupSVG(h, P)}
-      <line x1="${bx + Math.cos(ang) * 20}" y1="${by + Math.sin(ang) * 20}" x2="${ex}" y2="${ey}" stroke="#FFD877" stroke-width="7" stroke-linecap="round" stroke-dasharray="2 16"/>
+      <line x1="${bx + Math.cos(ang) * 20}" y1="${by + Math.sin(ang) * 20}" x2="${ex}" y2="${ey}" stroke="#FFD877" stroke-width="7" stroke-linecap="round" stroke-dasharray="2 16" class="march"/>
       <path d="M0 -15 L22 0 L0 15 Z" transform="translate(${ex} ${ey}) rotate(${(ang * 180) / Math.PI})" fill="#FFD877" stroke="#20302A" stroke-width="2.5"/>
       <circle cx="${bx}" cy="${by}" r="24" fill="none" stroke="#fff" stroke-width="3.5" opacity=".75"/>
+      <circle class="ripple" cx="${bx}" cy="${by}" r="24" fill="none" stroke="#fff" stroke-width="3"/>
       <g transform="translate(${bx} ${by}) scale(1.25)">${ballSVG('#E0457B')}</g>
       ${over}
     </svg>`;
@@ -400,12 +401,12 @@ function sayArt() {
   return `
     <svg viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       ${studioSVG('hubsay-')}
-      <g transform="translate(150 330)">${timer}</g>
+      <g transform="translate(150 330)"><g class="tick">${timer}</g></g>
       <g transform="translate(850 330)">${rows}</g>
-      <g transform="translate(500 350) rotate(-2)">
+      <g transform="translate(500 350) rotate(-2)"><g class="tilt">
         ${[3, 2, 1].map((k) => `<rect x="${-180 + k * 5}" y="${-220 + k * 6}" width="360" height="440" rx="24" fill="#FFFCF5" stroke="#20142E" stroke-width="4" opacity="${0.5 + k * 0.1}"/>`).join('')}
         ${cardFrontSVG(card)}
-      </g>
+      </g></g>
     </svg>`;
 }
 
@@ -419,8 +420,8 @@ function chaptehArt() {
       ${ckScene('hubck-', 'solo')}
       <g transform="translate(500 ${CK_GY})">${kidKickSVG(CK_OUTFITS[0], 'R')}</g>
       <path d="M${ckX(0.2)} ${ckY(0.3)} C ${ckX(0.3)} ${ckY(1.6)} ${ckX(-0.45)} ${ckY(1.7)} ${cx} ${cy - 20}" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="3 14" stroke-linecap="round" opacity=".9"/>
-      <g transform="translate(${cx} ${cy}) rotate(-22) scale(1.2)">${chaptehSVG(false)}</g>
-      <circle cx="${lx}" cy="${ly}" r="50" fill="none" stroke="${CK_ZONES.L}" stroke-width="7" opacity=".9"/>
+      <g transform="translate(${cx} ${cy}) rotate(-22) scale(1.2)"><g class="flutter">${chaptehSVG(false)}</g></g>
+      <circle class="closing" cx="${lx}" cy="${ly}" r="50" fill="none" stroke="${CK_ZONES.L}" stroke-width="7" opacity=".9"/>
       <g transform="translate(${lx} ${ly})"><circle r="22" fill="${CK_ZONES.L}" opacity=".95" stroke="#fff" stroke-width="3"/><text y="7" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="20" fill="#fff">◀</text></g>
       <g transform="translate(204 196) scale(.8)">
         <text font-family="${FONT}" font-weight="800" font-size="20" fill="#2A1A12" opacity=".75">SCORE</text>
@@ -442,17 +443,17 @@ function quizArt() {
     <svg viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       ${kqStudio('hubkq-')}
       ${kqQuestion(q, 4, 10)}
-      <rect x="${x + 26}" y="${y + h - 22}" width="${(sw - 52) * 0.55}" height="9" rx="4.5" fill="#2D6FD1"/>
+      <rect class="clock" x="${x + 26}" y="${y + h - 22}" width="${(sw - 52) * 0.55}" height="9" rx="4.5" fill="#2D6FD1"/>
       ${q.opts.map((o, i) => kqTile(i, o, i === 2 ? 'tried' : '')).join('')}
       ${players.map((p, i) => kqPodium({ ...p, idx: i }, 178 + i * (w + gap), w, i === 1 ? 'buzzed' : i === 0 ? 'locked' : '')).join('')}
-      <g transform="translate(86 392)">${kqHost('happy')}</g>
+      <g transform="translate(86 392)"><g class="bob" style="--bob:-8px">${kqHost('happy')}</g></g>
     </svg>`;
 }
 
 function makanArt() {
   // miniature of the 2D board mid-game: tingkats on the trail, a dish on its way, the die showing 5
   const owner = { 0: '#E0457B', 8: '#2D6FD1', 16: '#F2B134' };
-  const tok = (sq, color, dx = 0) => { const c = mtCentrePt(sq); return `<g transform="translate(${c.x + dx} ${c.y + 22})"><g opacity=".9">${tingkatSVG('#FFFFFF', 1.32)}</g>${tingkatSVG(color, 1.18)}</g>`; };
+  const tok = (sq, color, k) => { const c = mtCentrePt(sq); return `<g transform="translate(${c.x} ${c.y + 22})"><g class="hop" style="animation-delay:${k * -0.8}s"><g opacity=".9">${tingkatSVG('#FFFFFF', 1.32)}</g>${tingkatSVG(color, 1.18)}</g></g>`; };
   const maxwell = mtCentrePt(21);
   return `
     <svg viewBox="12 70 596 370" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -461,10 +462,10 @@ function makanArt() {
       <rect x="${MT_BOARD.x}" y="${MT_BOARD.y}" width="${MT_BOARD.size}" height="${MT_BOARD.size}" rx="16" fill="#F6EFE3"/>
       ${mtCentre()}
       ${MT_SQUARES.map((_, i) => mtSquare(i, owner[i])).join('')}
-      <g transform="translate(${MT_BOARD.x + MT_BOARD.size / 2 + 90} ${MT_BOARD.y + MT_BOARD.size / 2 + 40}) rotate(12)">${mtDie(5)}</g>
+      <g transform="translate(${MT_BOARD.x + MT_BOARD.size / 2 + 90} ${MT_BOARD.y + MT_BOARD.size / 2 + 40}) rotate(12)"><g class="rock">${mtDie(5)}</g></g>
       <path d="M${maxwell.x} ${maxwell.y - 30} Q ${maxwell.x - 40} ${maxwell.y - 170} ${maxwell.x + 70} ${maxwell.y - 190}" fill="none" stroke="#2A1A12" stroke-width="4" stroke-dasharray="4 10" stroke-linecap="round" opacity=".7"/>
-      <g transform="translate(${maxwell.x + 80} ${maxwell.y - 196}) scale(1.9)">${mtDish('chickenrice')}</g>
-      ${tok(21, '#E0457B')}${tok(10, '#2D6FD1')}${tok(29, '#F2B134')}
+      <g transform="translate(${maxwell.x + 80} ${maxwell.y - 196}) scale(1.9)"><g class="bob" style="--bob:-4px">${mtDish('chickenrice')}</g></g>
+      ${tok(21, '#E0457B', 0)}${tok(10, '#2D6FD1', 1)}${tok(29, '#F2B134', 2)}
     </svg>`;
 }
 
@@ -481,12 +482,12 @@ function bigtwoArt() {
   const straight = [22, 24, 28, 34, 39]; // 8♥ 9♦ 10♦ J♥ Q♠
   const pile = straight.map((id, i) => `<g transform="translate(${BT_PILE.x + (i - 2) * 52 - 47} ${BT_PILE.y - 66}) scale(.95)">${btFace(id)}</g>`).join('');
   const hand = [3, 9, 14, 23, 30, 41, 47, 51];
-  const mine = hand.map((id, i) => `<g transform="translate(${190 + i * 78} ${i === 5 ? 452 : 470}) scale(1.05)">${btFace(id)}</g>`).join('');
+  const mine = hand.map((id, i) => `<g transform="translate(${190 + i * 78} ${i === 5 ? 452 : 470}) scale(1.05)">${i === 5 ? `<g class="lift">${btFace(id)}</g>` : btFace(id)}</g>`).join('');
   return `
     <svg viewBox="70 46 860 484" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs>${KM_DEFS}${BT_DEFS}</defs>
       ${btRoom()}
-      ${[1, 2, 3].map((p) => `<g transform="translate(${BT_SEAT[p].x} ${BT_SEAT[p].y}) scale(${BT_SEAT[p].scale})">${customerSVG(who[p], p === 2 ? 'happy' : 'ok')}</g>`).join('')}
+      ${[1, 2, 3].map((p) => `<g transform="translate(${BT_SEAT[p].x} ${BT_SEAT[p].y}) scale(${BT_SEAT[p].scale})"><g class="bob" style="--bob:-7px;animation-delay:${-p * 0.9}s">${customerSVG(who[p], p === 2 ? 'happy' : 'ok')}</g></g>`).join('')}
       ${btTable()}
       ${fan(1, 9)}${fan(2, 6)}${fan(3, 11)}
       ${pile}

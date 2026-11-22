@@ -183,11 +183,42 @@ h1 em::after {
   .card-art .needle { animation: wobble 5s ease-in-out infinite; }
   .card-art .fan-blades { animation: spin 3s linear infinite; }
   .card-art .hot { animation: spin 9s linear infinite; }
+  /* small loops on the other games' cards, so the hub never sits still */
+  .card-art .bob { animation: bob 3.2s ease-in-out infinite; }
+  .card-art .door-l { animation: doorL 5s ease-in-out infinite; }
+  .card-art .door-r { animation: doorR 5s ease-in-out infinite; }
+  .card-art .twinkle { animation: twinkle 1.6s ease-in-out infinite alternate; }
+  .card-art .march { animation: march 0.9s linear infinite; }
+  .card-art .ripple { animation: ripple 1.8s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+  .card-art .tick { animation: tick 1s steps(1) infinite; transform-box: fill-box; transform-origin: center; }
+  .card-art .tilt { animation: tilt 5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 90%; }
+  .card-art .flutter { animation: flutter 1.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .card-art .closing { animation: closing 1.4s ease-in infinite; transform-box: fill-box; transform-origin: center; }
+  .card-art .clock { animation: clock 6s linear infinite; transform-box: fill-box; transform-origin: left center; }
+  .card-art .rock { animation: rock 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .card-art .hop { animation: hop 2.4s ease-in-out infinite; }
+  .card-art .sway { animation: sway 4s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 0; }
+  .card-art .lift { animation: lift 2.8s ease-in-out infinite; }
 }
 @keyframes rise { from { opacity: 0; transform: translateY(18px); } }
 @keyframes up { from { transform: scaleY(0); } }
 @keyframes wobble { 0%, 100% { transform: rotate(-14deg); } 50% { transform: rotate(10deg); } }
 @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes bob { 50% { transform: translateY(var(--bob, -4px)); } }
+@keyframes doorL { 0%, 30%, 100% { transform: translateX(0); } 45%, 85% { transform: translateX(-12px); } }
+@keyframes doorR { 0%, 30%, 100% { transform: translateX(0); } 45%, 85% { transform: translateX(12px); } }
+@keyframes twinkle { from { opacity: .1; } to { opacity: .6; } }
+@keyframes march { to { stroke-dashoffset: -36; } }
+@keyframes ripple { from { transform: scale(1); opacity: .8; } to { transform: scale(1.9); opacity: 0; } }
+@keyframes tick { 0% { transform: scale(1.035); } 15% { transform: scale(1); } }
+@keyframes tilt { 0%, 100% { transform: rotate(-1.6deg); } 50% { transform: rotate(1.6deg); } }
+@keyframes flutter { 0%, 100% { transform: translateY(-8px) rotate(-6deg); } 50% { transform: translateY(8px) rotate(6deg); } }
+@keyframes closing { from { transform: scale(1.6); opacity: .15; } to { transform: scale(1); opacity: .95; } }
+@keyframes clock { from { transform: scaleX(1); } to { transform: scaleX(.08); } }
+@keyframes rock { 0%, 100% { transform: rotate(-9deg); } 50% { transform: rotate(9deg); } }
+@keyframes hop { 0%, 70%, 100% { transform: translateY(0); } 80% { transform: translateY(-14px); } 90% { transform: translateY(0); } 95% { transform: translateY(-4px); } }
+@keyframes sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+@keyframes lift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
 
 @media (max-width: 640px) {
   body { font-size: 16px; }
