@@ -152,6 +152,21 @@ export const GAMES = [
     ],
     status: 'live',
   },
+  {
+    slug: 'big-two',
+    title: 'Big Two',
+    tagline: 'Huat ah!',
+    blurb:
+      "The Chinese New Year card game at Ah Ma's table. Get rid of your 13 cards first with pairs, straights and full houses, and collect mandarin oranges from everyone else.",
+    tags: ['Solo vs CPU', '2–4 players', 'Cards', '10–20 min'],
+    accent: '#C8162F',
+    art: 'bigtwo',
+    links: [
+      { label: 'Play', href: 'games/big-two/', primary: true },
+      { label: 'Play in 3D', href: 'games/big-two/3d/', badge: 'New' },
+    ],
+    status: 'live',
+  },
   // The two "coming soon" cards below are permanent: keep them last, after every real game.
   {
     slug: 'coming-soon-1',

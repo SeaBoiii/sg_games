@@ -10,6 +10,7 @@ import { studioSVG as kqStudio, hostSVG as kqHost, questionSVG as kqQuestion, ti
 import { QUESTIONS as KQ_QUESTIONS } from '../games/kiasu-quiz/js/questions.js';
 import { squareSVG as mtSquare, centreSVG as mtCentre, tingkatSVG, dieSVG as mtDie, dishSVG as mtDish, centre as mtCentrePt, BOARD as MT_BOARD } from '../games/makan-trail/js/art.js';
 import { SQUARES as MT_SQUARES } from '../games/makan-trail/js/engine.js';
+import { roomSVG as btRoom, tableSVG as btTable, SCENE_DEFS as BT_DEFS, SEAT as BT_SEAT, PILE as BT_PILE, cardFace as btFace, cardBack as btBack, CW as BT_CW, CH as BT_CH } from '../games/big-two/js/art.js';
 
 
 /* ---------- Heartland skyline (HDB blocks) ---------- */
@@ -95,7 +96,7 @@ function arc(cx, cy, r, a0, a1) {
 
 // Miniatures of each game's real 2D screen, so the hub cards match what you get when you tap Play.
 const FONT = 'Bricolage Grotesque, sans-serif';
-const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi', 'pasar', 'golf', 'say', 'chapteh', 'quiz', 'makan']);
+const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi', 'pasar', 'golf', 'say', 'chapteh', 'quiz', 'makan', 'bigtwo']);
 
 function agakArt() {
   const CX = 200, CY = 176, R = 123;
@@ -467,6 +468,33 @@ function makanArt() {
     </svg>`;
 }
 
+function bigtwoArt() {
+  // miniature of the 2D table mid-deal: three relatives, a straight on the cloth, your hand below
+  const who = [null, 'aunty', 'uncle', 'ns'];
+  const fan = (p, n) => {
+    const [fx, fy] = BT_SEAT[p].fan;
+    const base = p === 1 ? -90 : p === 3 ? 90 : 0;
+    let out = '';
+    for (let i = 0; i < n; i++) out += `<g transform="translate(${fx} ${fy}) rotate(${base + (i - (n - 1) / 2) * 7}) translate(${-BT_CW * 0.18} ${-BT_CH * 0.36 - 6}) scale(.36)">${btBack()}</g>`;
+    return out;
+  };
+  const straight = [22, 24, 28, 34, 39]; // 8♥ 9♦ 10♦ J♥ Q♠
+  const pile = straight.map((id, i) => `<g transform="translate(${BT_PILE.x + (i - 2) * 52 - 47} ${BT_PILE.y - 66}) scale(.95)">${btFace(id)}</g>`).join('');
+  const hand = [3, 9, 14, 23, 30, 41, 47, 51];
+  const mine = hand.map((id, i) => `<g transform="translate(${190 + i * 78} ${i === 5 ? 452 : 470}) scale(1.05)">${btFace(id)}</g>`).join('');
+  return `
+    <svg viewBox="70 46 860 484" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>${KM_DEFS}${BT_DEFS}</defs>
+      ${btRoom()}
+      ${[1, 2, 3].map((p) => `<g transform="translate(${BT_SEAT[p].x} ${BT_SEAT[p].y}) scale(${BT_SEAT[p].scale})">${customerSVG(who[p], p === 2 ? 'happy' : 'ok')}</g>`).join('')}
+      ${btTable()}
+      ${fan(1, 9)}${fan(2, 6)}${fan(3, 11)}
+      ${pile}
+      <rect x="0" y="440" width="1000" height="140" fill="#8F1024"/>
+      ${mine}
+    </svg>`;
+}
+
 const ART = {
   dial: agakArt,
   chope: chopeArt,
@@ -478,6 +506,7 @@ const ART = {
   chapteh: chaptehArt,
   quiz: quizArt,
   makan: makanArt,
+  bigtwo: bigtwoArt,
   wok: () => `
     <svg viewBox="0 0 400 240" aria-hidden="true">
       <path d="M70 120h260a130 70 0 0 1-260 0z" fill="#2A1A12"/>
