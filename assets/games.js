@@ -137,6 +137,21 @@ export const GAMES = [
     ],
     status: 'live',
   },
+  {
+    slug: 'makan-trail',
+    title: 'Makan Trail',
+    tagline: 'Eat your way round!',
+    blurb:
+      'A board game race round Singapore. Collect the four hawker dishes on your makan list, dodge rain and ERP gantries, ride the MRT, and get back home first.',
+    tags: ['2–4 players', 'vs CPU', 'Dice', '15 min'],
+    accent: '#6B3E26',
+    art: 'makan',
+    links: [
+      { label: 'Play', href: 'games/makan-trail/', primary: true },
+      { label: 'Play in 3D', href: 'games/makan-trail/3d/', badge: 'New' },
+    ],
+    status: 'live',
+  },
   // The two "coming soon" cards below are permanent: keep them last, after every real game.
   {
     slug: 'coming-soon-1',

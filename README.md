@@ -16,6 +16,7 @@ Party games for the kopitiam table. They are static HTML, CSS and JS, with no bu
 | **Cannot Say!** | `games/cannot-say/` (2D) · `games/cannot-say/3d/` (3D) | Team word party game. The describer gets your team to say the word on the card (hawker food, places, Singlish, SG life, getting around) without saying any of its five banned words. Got it, skip or buzz against the clock, then fix mistakes before banking the points. 2–4 teams passing one phone. |
 | **Chapteh Kick** | `games/chapteh-kick/` (2D) · `games/chapteh-kick/3d/` (3D) | Arcade timing game based on the kampung shuttlecock. The chapteh falls to your left foot, knee or right foot; kick the matching zone as the ring closes for Perfects, combos and golden bonuses. 3 chapteh per run, and it speeds up. Rally mode puts two players on one phone (left half vs right half); Turns mode passes it round 2–4 players. |
 | **Kiasu Quiz** | `games/kiasu-quiz/` (2D) · `games/kiasu-quiz/3d/` (3D) | Singapore trivia game show with 128 questions on history, places, makan, Singlish and SG life, each with a "Did you know?" fact. Solo: beat the clock with three lifelines (Kiasu 50:50, Ask Auntie, Chope next). Buzzer battle: 2–4 players buzz in on one screen; wrong answers lose points and let others steal. |
+| **Makan Trail** | `games/makan-trail/` (2D) · `games/makan-trail/3d/` (3D) | Board game race round Singapore for 2–4 players (any seat can be a CPU). Roll and walk a 32-square loop, stop early at hawker centres to buy the 4 dishes on your makan list, collect payday at home, dodge rain, ERP and kopitiam-talk surprises, ride the MRT, and get home first. |
 
 ## Project layout
 
@@ -91,6 +92,14 @@ games/kiasu-quiz/
   js/board2d.js         SVG studio board
   js/board3d.js         Three.js studio: live canvas screen and tiles, podiums with buzzers, host desk
   models/quiz-assets.glb Quiz wall with bulbs, podium with buzzer dome, host desk, light truss, SG cast
+games/makan-trail/
+  index.html, 3d/       2D (SVG) and 3D (Three.js) builds
+  js/engine.js          Board, hawker menus, makan lists, dice, stops, payday, squares and cards, CPU choices (no DOM)
+  js/art.js             SVG board squares, the eight dishes, tingkat tokens, die and card
+  js/flow.js            Seats (human or CPU), turns, the stop-early choice, turn recaps, results
+  js/board2d.js         SVG board with hopping tokens and player cards
+  js/board3d.js         Three.js kopitiam table: the board as a texture, Blender props, tingkats and a real die
+  models/makan-assets.glb Tingkat token, die, kopitiam table, mini hawker/HDB/MRT/ERP/ang bao/rain/card props, SG cast
 games/agak-agak/
   index.html            2D build (SVG dial)
   3d/index.html         3D build (Three.js dial on a kopitiam table)

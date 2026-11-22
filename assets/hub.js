@@ -8,6 +8,8 @@ import { CARDS as SAY_CARDS } from '../games/cannot-say/js/cards.js';
 import { sceneSVG as ckScene, kidKickSVG, chaptehSVG, OUTFITS as CK_OUTFITS, ZONE_COLORS as CK_ZONES, GY as CK_GY, px as ckX, py as ckY } from '../games/chapteh-kick/js/art.js';
 import { studioSVG as kqStudio, hostSVG as kqHost, questionSVG as kqQuestion, tileSVG as kqTile, podiumSVG as kqPodium, SCREEN as KQ_SCREEN } from '../games/kiasu-quiz/js/art.js';
 import { QUESTIONS as KQ_QUESTIONS } from '../games/kiasu-quiz/js/questions.js';
+import { squareSVG as mtSquare, centreSVG as mtCentre, tingkatSVG, dieSVG as mtDie, dishSVG as mtDish, centre as mtCentrePt, BOARD as MT_BOARD } from '../games/makan-trail/js/art.js';
+import { SQUARES as MT_SQUARES } from '../games/makan-trail/js/engine.js';
 
 
 /* ---------- Heartland skyline (HDB blocks) ---------- */
@@ -93,7 +95,7 @@ function arc(cx, cy, r, a0, a1) {
 
 // Miniatures of each game's real 2D screen, so the hub cards match what you get when you tap Play.
 const FONT = 'Bricolage Grotesque, sans-serif';
-const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi', 'pasar', 'golf', 'say', 'chapteh', 'quiz']);
+const BLEED = new Set(['dial', 'chope', 'mrt', 'kopi', 'pasar', 'golf', 'say', 'chapteh', 'quiz', 'makan']);
 
 function agakArt() {
   const CX = 200, CY = 176, R = 123;
@@ -446,6 +448,25 @@ function quizArt() {
     </svg>`;
 }
 
+function makanArt() {
+  // miniature of the 2D board mid-game: tingkats on the trail, a dish on its way, the die showing 5
+  const owner = { 0: '#E0457B', 8: '#2D6FD1', 16: '#F2B134' };
+  const tok = (sq, color, dx = 0) => { const c = mtCentrePt(sq); return `<g transform="translate(${c.x + dx} ${c.y + 22})"><g opacity=".9">${tingkatSVG('#FFFFFF', 1.32)}</g>${tingkatSVG(color, 1.18)}</g>`; };
+  const maxwell = mtCentrePt(21);
+  return `
+    <svg viewBox="12 70 596 370" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <rect x="0" y="0" width="620" height="620" fill="#C9A97C"/>
+      <rect x="${MT_BOARD.x - 6}" y="${MT_BOARD.y - 6}" width="${MT_BOARD.size + 12}" height="${MT_BOARD.size + 12}" rx="22" fill="#6B3E26"/>
+      <rect x="${MT_BOARD.x}" y="${MT_BOARD.y}" width="${MT_BOARD.size}" height="${MT_BOARD.size}" rx="16" fill="#F6EFE3"/>
+      ${mtCentre()}
+      ${MT_SQUARES.map((_, i) => mtSquare(i, owner[i])).join('')}
+      <g transform="translate(${MT_BOARD.x + MT_BOARD.size / 2 + 90} ${MT_BOARD.y + MT_BOARD.size / 2 + 40}) rotate(12)">${mtDie(5)}</g>
+      <path d="M${maxwell.x} ${maxwell.y - 30} Q ${maxwell.x - 40} ${maxwell.y - 170} ${maxwell.x + 70} ${maxwell.y - 190}" fill="none" stroke="#2A1A12" stroke-width="4" stroke-dasharray="4 10" stroke-linecap="round" opacity=".7"/>
+      <g transform="translate(${maxwell.x + 80} ${maxwell.y - 196}) scale(1.9)">${mtDish('chickenrice')}</g>
+      ${tok(21, '#E0457B')}${tok(10, '#2D6FD1')}${tok(29, '#F2B134')}
+    </svg>`;
+}
+
 const ART = {
   dial: agakArt,
   chope: chopeArt,
@@ -456,6 +477,7 @@ const ART = {
   say: sayArt,
   chapteh: chaptehArt,
   quiz: quizArt,
+  makan: makanArt,
   wok: () => `
     <svg viewBox="0 0 400 240" aria-hidden="true">
       <path d="M70 120h260a130 70 0 0 1-260 0z" fill="#2A1A12"/>
